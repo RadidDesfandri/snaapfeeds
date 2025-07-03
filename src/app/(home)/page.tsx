@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>VERSION 2</div>;
+  return <div className="pt-20">VERSION 2</div>;
 }
