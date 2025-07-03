@@ -36,7 +36,7 @@ const Navigation = () => {
   useClickOutside([ref], handleToggle, isOpenNav);
 
   return (
-    <LayoutProvider className="py-5">
+    <LayoutProvider className="py-5 fixed top-0 left-0 w-full bg-white">
       <div className="hidden md:flex items-center justify-between">
         {routes.slice(0, 2).map((item) => (
           <RouteItem key={item.label} label={item.label} url={item.url} />
