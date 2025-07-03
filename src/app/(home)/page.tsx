@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>Nich docker berhasill!!!</div>;
+  return <div>VERSION 2</div>;
 }
