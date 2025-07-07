@@ -36,8 +36,8 @@ const Navigation = () => {
   useClickOutside([ref], handleToggle, isOpenNav);
 
   return (
-    <LayoutProvider className="py-5 fixed top-0 left-0 w-full bg-white">
-      <div className="hidden md:flex items-center justify-between">
+    <LayoutProvider className="fixed top-0 left-0 w-full bg-white py-5">
+      <div className="hidden items-center justify-between md:flex">
         {routes.slice(0, 2).map((item) => (
           <RouteItem key={item.label} label={item.label} url={item.url} />
         ))}
@@ -47,7 +47,7 @@ const Navigation = () => {
         ))}
       </div>
 
-      <div className="md:hidden flex justify-between">
+      <div className="flex justify-between md:hidden">
         <div></div>
         <Logo />
         <button onClick={() => setIsOpenNav(true)} className="cursor-pointer">
@@ -62,7 +62,7 @@ const Navigation = () => {
 export default Navigation;
 
 const RouteItem = ({ url, label }: { url: string; label: string }) => (
-  <Link href={url} className="hover:font-semibold transition-all duration-300">
+  <Link href={url} className="transition-all duration-300 hover:font-semibold">
     {label}
   </Link>
 );

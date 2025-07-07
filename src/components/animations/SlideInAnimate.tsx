@@ -15,7 +15,7 @@ interface SlideInAnimateProps extends React.ComponentPropsWithoutRef<"div"> {
 const SlideInAnimate = forwardRef<HTMLDivElement, SlideInAnimateProps>(
   (
     { children, position = "left", width = "small", isOpen, className },
-    ref
+    ref,
   ) => {
     return (
       <AnimatePresence>
@@ -33,7 +33,7 @@ const SlideInAnimate = forwardRef<HTMLDivElement, SlideInAnimateProps>(
               width === "small" && "w-64",
               width === "medium" && "w-64 md:w-80",
               width === "large" && "w-80 md:w-[400px]",
-              className
+              className,
             )}
           >
             {children}
@@ -41,7 +41,7 @@ const SlideInAnimate = forwardRef<HTMLDivElement, SlideInAnimateProps>(
         )}
       </AnimatePresence>
     );
-  }
+  },
 );
 
 SlideInAnimate.displayName = "SlideInAnimate";

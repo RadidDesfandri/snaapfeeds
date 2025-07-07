@@ -15,10 +15,7 @@ const LayoutProvider: React.FC<LayoutProviderProps> = ({
   return (
     <div
       id={id}
-      className={cn(
-        "mx-auto max-w-7xl px-5 md:px-14 lg:px-16",
-        className,
-      )}
+      className={cn("mx-auto max-w-7xl px-5 md:px-14 lg:px-16", className)}
     >
       {children}
     </div>
