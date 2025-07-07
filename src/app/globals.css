@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+.text-stroke {
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+@theme inline {
+  --font-poppins: var(--font-poppins);
+}
