@@ -41,7 +41,9 @@ const Navigation = () => {
         {routes.slice(0, 2).map((item) => (
           <RouteItem key={item.label} label={item.label} url={item.url} />
         ))}
-        <Logo />
+        <Link href="/">
+          <Logo asChild />
+        </Link>
         {routes.slice(2, 4).map((item) => (
           <RouteItem key={item.label} label={item.label} url={item.url} />
         ))}
@@ -49,7 +51,9 @@ const Navigation = () => {
 
       <div className="flex justify-between md:hidden">
         <div></div>
-        <Logo />
+        <Link href="/">
+          <Logo asChild />
+        </Link>
         <button onClick={() => setIsOpenNav(true)} className="cursor-pointer">
           <AlignJustify />
         </button>
@@ -74,7 +78,12 @@ const OpenMenuMobile = ({
   isOpen: boolean;
   ref: ForwardedRef<HTMLDivElement>;
 }) => (
-  <SlideInAnimate position="right" isOpen={isOpen} ref={ref}>
+  <SlideInAnimate
+    position="right"
+    isOpen={isOpen}
+    ref={ref}
+    className="min-h-screen md:hidden"
+  >
     konten here
   </SlideInAnimate>
 );
