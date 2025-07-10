@@ -9,17 +9,21 @@ interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({
-    variant = "default",
-    size = "default",
-    asChild = false,
-    className,
-    ...props
-  }) => {
+  (
+    {
+      variant = "default",
+      size = "default",
+      asChild = false,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : "button";
 
     return (
       <Comp
+        ref={ref}
         className={cn(
           "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-red-ring-red-600 inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md text-xs font-medium whitespace-nowrap transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-default disabled:opacity-50 aria-invalid:ring-red-600/20 md:text-sm dark:aria-invalid:ring-red-600/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
           variant === "default"

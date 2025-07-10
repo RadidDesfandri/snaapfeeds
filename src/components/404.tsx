@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import FloatingElemet from "./ui/FloatingElemet";
+// import FloatingElemet from "./ui/FloatingElemet";
 import Button from "./ui/button";
 
 const NotFound404: React.FC = () => {
@@ -70,7 +70,7 @@ const NotFound404: React.FC = () => {
           </Button>
         </div>
 
-        <FloatingElemet color="white" />
+        {/* <FloatingElemet color="white" /> */}
 
         {/* Bottom Message */}
         <div className="mt-12 text-sm text-gray-600">

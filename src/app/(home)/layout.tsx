@@ -1,4 +1,4 @@
-import { Footer } from "@/components/homepage/Footer";
+import Footer from "@/components/homepage/Footer";
 import Navigation from "@/components/homepage/Navigation";
 import { ReactNode } from "react";
 

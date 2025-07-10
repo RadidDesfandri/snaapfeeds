@@ -4,9 +4,9 @@ import {
   ChevronRight,
   Play,
   Sparkles,
-  Trophy,
-  Users,
-  Zap,
+  // Trophy,
+  // Users,
+  // Zap,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,7 +50,7 @@ const HeroSection = () => {
         </Button>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-3 md:gap-8">
+      {/* <div className="mt-4 grid grid-cols-3 gap-3 md:gap-8">
         <div className="text-center">
           <div className="mb-2 flex items-center justify-center">
             <Users className="mr-2 h-5 w-5 text-pink-400 md:h-6 md:w-6" />
@@ -76,7 +76,7 @@ const HeroSection = () => {
           </div>
           <p className="text-sm text-gray-500">Processing Time</p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
