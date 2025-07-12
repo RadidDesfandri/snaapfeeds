@@ -19,3 +19,22 @@
 @theme inline {
   --font-poppins: var(--font-poppins);
 }
+
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.flash-effect {
+  animation: flash 0.5s ease-out;
+}

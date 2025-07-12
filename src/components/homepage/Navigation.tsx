@@ -15,15 +15,15 @@ const routes = [
   },
   {
     label: "privacy dan policy",
-    url: "/",
+    url: "/privacy",
   },
   {
     label: "about",
-    url: "/",
+    url: "/about",
   },
   {
     label: "chose layout",
-    url: "/",
+    url: "/about",
   },
 ];
 

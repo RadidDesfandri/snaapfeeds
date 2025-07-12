@@ -1,11 +1,16 @@
+"use client";
+
+import { LayoutOptions } from "@/app/(home)/chose-layout/page";
+import { Camera, Check, Image as ImageIcon, RotateCcw } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import LayoutProvider from "../LayoutProvider";
-import Button from "../ui/button";
-import { Camera, Check, RotateCcw } from "lucide-react";
-import { Image as ImageIcon } from "lucide-react";
-import { LayoutOptions } from "@/app/(home)/chose-layout/page";
-import Image from "next/image";
 import Logo from "../Logo";
+import Button from "../ui/button";
+import CardPreview from "./CardPreview";
+import { getDimensionsByLayout } from "@/utils/getDimensionByLayout";
+import { getPhotoSizeByLayout } from "@/utils/getPhotoSizeByLayout";
+import { cn } from "@/lib/utils";
 
 // 1. countdown ✅
 // 2. take, and retake picture ✅
@@ -14,6 +19,7 @@ import Logo from "../Logo";
 // 5. download photo
 // 6. filter kamera ✅
 // 7. filter output photo ✅
+// 8. frame color
 
 interface PhotoSectionProps {
   isOpen: boolean;
@@ -26,12 +32,10 @@ type FilterOption =
   | "black-white"
   | "sepia"
   | "vintage"
-  | "cool"
   | "warm"
   | "blur"
   | "contrast"
-  | "brightness"
-  | "invert";
+  | "brightness";
 
 const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -51,17 +55,17 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
   // Filter
   const [currentFilter, setCurrentFilter] = useState<FilterOption>("normal");
 
+  const { aspect, width } = getPhotoSizeByLayout(layoutOption.layoutName);
+
   const filters = {
     normal: "",
     "black-white": "grayscale(100%)",
     sepia: "sepia(100%)",
     vintage: "sepia(50%) contrast(120%) brightness(110%)",
-    cool: "hue-rotate(180deg) saturate(120%)",
     warm: "hue-rotate(20deg) saturate(120%) brightness(110%)",
     blur: "blur(2px)",
     contrast: "contrast(150%)",
     brightness: "brightness(130%)",
-    invert: "invert(100%)",
   };
 
   const startCamera = async () => {
@@ -94,18 +98,38 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
     const video = videoRef.current;
     const context = canvas.getContext("2d");
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    const { width, height } = getDimensionsByLayout(layoutOption.layoutName);
+    canvas.width = width;
+    canvas.height = height;
 
     if (context) {
       context.save();
 
-      context.translate(canvas.width, 0);
+      context.translate(width, 0);
       context.scale(-1, 1);
 
       context.filter = filters[currentFilter];
 
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const videoAspectRatio = video.videoWidth / video.videoHeight;
+      const canvasAspectRatio = width / height;
+
+      let sx = 0,
+        sy = 0,
+        sw = video.videoWidth,
+        sh = video.videoHeight;
+
+      if (videoAspectRatio > canvasAspectRatio) {
+        const newWidth = video.videoHeight * canvasAspectRatio;
+        sx = (video.videoWidth - newWidth) / 2;
+        sw = newWidth;
+      } else {
+        const newHeight = video.videoWidth / canvasAspectRatio;
+        sy = (video.videoHeight - newHeight) / 2;
+        sh = newHeight;
+      }
+
+      context.drawImage(video, sx, sy, sw, sh, 0, 0, width, height);
+
       context.restore();
     }
 
@@ -144,22 +168,24 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
     setCurrentStep("camera");
   };
 
-  const startCoundown = () => {
+  const startCountdown = () => {
     setIsCountdown(true);
     setCountdown(3);
 
+    let currentCount = 3;
+
     const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setTimeout(() => {
-            capturePhoto();
-            setIsCountdown(false);
-          }, 1000);
-          return 0;
-        }
-        return prev - 1;
-      });
+      currentCount -= 1;
+      setCountdown(currentCount);
+
+      if (currentCount <= 0) {
+        clearInterval(timer);
+
+        setTimeout(() => {
+          capturePhoto();
+          setIsCountdown(false);
+        }, 500);
+      }
     }, 1000);
   };
 
@@ -188,9 +214,16 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
   if (!isOpen) return null;
 
   return (
-    <LayoutProvider className="flex-col gap-9 pt-20 md:flex-row" center>
+    <LayoutProvider
+      className="flex-col gap-9 pb-10 md:pt-24 lg:flex-row"
+      center
+    >
       {currentStep === "cards" ? (
-        <div>Cards</div>
+        <CardPreview
+          canvasRef={canvasRef}
+          photos={photos}
+          layoutOption={layoutOption}
+        />
       ) : (
         <>
           <div>
@@ -211,7 +244,7 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
               )}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 transform">
                 <Button
-                  onClick={startCoundown}
+                  onClick={startCountdown}
                   size="lg"
                   className="rounded-full"
                 >
@@ -220,9 +253,14 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
               </div>
 
               {isCountdown && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                <div
+                  className={cn(
+                    "absolute inset-0 flex items-center justify-center",
+                    countdown > 0 ? "bg-black/50" : "flash-effect bg-white",
+                  )}
+                >
                   <div className="font-poppins animate-pulse text-8xl font-bold text-white">
-                    {countdown > 0 ? countdown : "📸"}
+                    {countdown > 0 && countdown}
                   </div>
                 </div>
               )}
@@ -255,11 +293,11 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="mb-5 flex w-[350px] flex-row gap-4 overflow-x-auto md:w-full md:flex-col">
+            <div className="mb-5 flex w-[350px] flex-row gap-4 overflow-x-auto md:w-full lg:flex-col">
               {photos.map((photo, idx) => (
                 <div
                   key={idx}
-                  className="flex h-28 w-48 shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-gray-300 text-center text-gray-600"
+                  className={`flex ${width} ${aspect} shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-gray-300 text-center text-gray-600`}
                 >
                   <Image
                     src={photo}
@@ -275,7 +313,7 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
               }).map((_, idx) => (
                 <div
                   key={idx}
-                  className="flex h-28 w-48 shrink-0 items-center justify-center rounded-2xl border bg-gray-300 text-center text-gray-600"
+                  className={`flex ${width} ${aspect} shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-gray-300 text-center text-gray-600`}
                 >
                   <ImageIcon />
                 </div>
@@ -284,17 +322,20 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
           </div>
 
           {currentStep === "preview" && currentPhoto && (
-            <div className="fixed inset-0 top-0 left-0 z-50 flex h-screen min-w-screen items-center justify-center bg-black/70 p-5">
-              <div className="relative overflow-hidden rounded-2xl bg-gray-200 p-4 md:px-7 md:py-6">
+            <div className="fixed inset-0 top-0 left-0 z-50 flex h-screen min-w-screen items-center justify-center bg-black/70 p-5 md:p-8 lg:p-10">
+              <div className="scrollbar-none relative max-h-96 overflow-y-auto rounded-2xl bg-gray-200 p-4 md:max-h-[500px] md:px-6 md:py-4 lg:max-h-[600px]">
                 <Logo />
 
-                <Image
-                  src={currentPhoto}
-                  alt="Preview"
-                  width={900}
-                  height={550}
-                  className="mt-3 w-full object-contain"
-                />
+                <div
+                  className={`relative mt-3 w-[300px] md:w-[400px] lg:w-[500px] ${aspect}`}
+                >
+                  <Image
+                    src={currentPhoto}
+                    alt="Preview"
+                    fill
+                    className="rounded-xl object-cover"
+                  />
+                </div>
 
                 <div className="mt-4 flex items-center justify-end gap-3 md:mt-6">
                   <Button onClick={retakePhoto} variant="outline" size="lg">
@@ -310,7 +351,9 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
         </>
       )}
 
-      <canvas ref={canvasRef} style={{ display: "none" }} />
+      {currentStep !== "cards" && (
+        <canvas ref={canvasRef} style={{ display: "none" }} />
+      )}
     </LayoutProvider>
   );
 };

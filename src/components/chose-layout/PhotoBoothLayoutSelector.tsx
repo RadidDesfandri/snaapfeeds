@@ -6,37 +6,7 @@ import Button from "../ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { LayoutOptions } from "@/app/(home)/chose-layout/page";
-
-const dataLayout = [
-  {
-    name: "Layout A",
-    description: "3 poses for photostrip",
-    poses: 3,
-    strip: 2,
-    imageUrl: "/photo-layouts/layout-a.png",
-  },
-  {
-    name: "Layout B",
-    description: "4 poses for photostrip",
-    poses: 4,
-    strip: 2,
-    imageUrl: "/photo-layouts/layout-b.png",
-  },
-  {
-    name: "Layout C",
-    description: "2 poses for photostrip",
-    poses: 2,
-    strip: 2,
-    imageUrl: "/photo-layouts/layout-c.png",
-  },
-  {
-    name: "Layout D",
-    description: "2 poses for photostrip",
-    poses: 2,
-    strip: 1,
-    imageUrl: "/photo-layouts/layout-d.png",
-  },
-];
+import { photoLayout } from "@/constanta/data";
 
 interface PhotoBoothLayoutSelectorProps {
   isOpen: boolean;
@@ -62,7 +32,7 @@ const PhotoBoothLayoutSelector = ({
   };
 
   return (
-    <LayoutProvider center className="flex-col pt-20 pb-9 md:pt-14 md:pb-0">
+    <LayoutProvider center className="flex-col pt-20 pb-9 md:pt-24">
       <div className="mb-8">
         <h1 className="font-poppins mb-4 text-center text-4xl font-bold text-black">
           Select the{" "}
@@ -76,7 +46,7 @@ const PhotoBoothLayoutSelector = ({
       </div>
 
       <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-7 lg:grid-cols-4">
-        {dataLayout.map((item) => (
+        {photoLayout.map((item) => (
           <CardLayout
             key={item.name}
             name={item.name}
@@ -139,6 +109,7 @@ const CardLayout: React.FC<CardLayoutProps> = ({
       alt={name}
       width={400}
       height={400}
+      priority
       className="w-32"
     />
     <div className="flex flex-col items-center justify-center gap-3">
