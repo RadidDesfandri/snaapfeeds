@@ -288,7 +288,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({
           // h-[525px] w-[230px]
         />
       </div>
-      <div className="scrollbar-none overflow-y-auto lg:max-h-[700px]">
+      <div className="scrollbar-none h-full overflow-y-auto">
         <div className="grid w-fit grid-cols-6 gap-4 lg:grid-cols-5">
           <div ref={colorRef} className="relative inline-block">
             <CardColor
@@ -296,7 +296,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({
               background="conic-gradient(red, yellow, lime, cyan, blue, magenta, red)"
             />
             {showColorPicker && (
-              <div className="absolute top-14 left-0 z-50">
+              <div className="absolute top-14 left-4 z-50">
                 <HexColorPicker
                   color={selectedFrameColor}
                   onChange={setselectedFrameColor}
