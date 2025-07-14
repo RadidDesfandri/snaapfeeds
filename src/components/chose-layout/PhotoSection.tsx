@@ -214,10 +214,7 @@ const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
   if (!isOpen) return null;
 
   return (
-    <LayoutProvider
-      className="flex-col gap-9 pb-10 md:pt-24 lg:flex-row"
-      center
-    >
+    <LayoutProvider className="flex-col gap-9 pt-24 pb-10 lg:flex-row" center>
       {currentStep === "cards" ? (
         <CardPreview
           canvasRef={canvasRef}

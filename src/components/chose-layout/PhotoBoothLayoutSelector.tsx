@@ -32,7 +32,7 @@ const PhotoBoothLayoutSelector = ({
   };
 
   return (
-    <LayoutProvider center className="flex-col pt-20 pb-9 md:pt-24">
+    <LayoutProvider center className="flex-col pt-24 pb-9">
       <div className="mb-8">
         <h1 className="font-poppins mb-4 text-center text-4xl font-bold text-black">
           Select the{" "}
