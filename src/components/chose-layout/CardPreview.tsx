@@ -8,8 +8,8 @@ import { useState, useRef, ReactNode, RefObject, useEffect } from "react";
 import { HexColorPicker } from "react-colorful";
 import Button from "../ui/button";
 import { LayoutOptions } from "@/app/(home)/chose-layout/page";
-import { default as NextImage } from "next/image";
-import { backgroundImage } from "@/constanta/data";
+// import { default as NextImage } from "next/image";
+// import { backgroundImage } from "@/constanta/data";
 
 const frameColors = [
   { color: "#B20000" },
