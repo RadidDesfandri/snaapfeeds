@@ -28,3 +28,15 @@ export const photoLayout = [
     imageUrl: "/photo-layouts/layout-d2.png",
   },
 ];
+
+export const backgroundImage = [
+  { url: "/background-frame/1.png" },
+  { url: "/background-frame/2.png" },
+  { url: "/background-frame/3.png" },
+  { url: "/background-frame/4.png" },
+  { url: "/background-frame/5.png" },
+  { url: "/background-frame/6.png" },
+  { url: "/background-frame/7.png" },
+  { url: "/background-frame/8.png" },
+  { url: "/background-frame/10.png" },
+];

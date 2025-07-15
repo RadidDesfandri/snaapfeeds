@@ -28,19 +28,16 @@ const HeroSection = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center gap-3">
-          <Image
-            src="/title-hero-section.png"
-            alt="Title hero section"
-            width={400}
-            height={400}
-            className="w-[450px]"
-          />
+          <h1 className="font-poppins text-4xl font-semibold">
+            Snap your moment
+          </h1>
 
           <p className="font-poppins text-center text-sm font-medium">
-            Transform your photo into stunning masterpiece with our AI-powered{" "}
-            <br className="hidden md:block" />
-            online photo booth. No download, no waiting - just pure creative{" "}
-            <br className="hidden md:block" /> magic at your fingertips
+            Welcome to Snapfeeds! Your go-to spot for creating awesome
+            photobooth <br className="hidden md:block" /> photos directly in
+            your browser, anytime, anywhere and free.{" "}
+            <br className="hidden md:block" /> Snap share your fun moments
+            without any hassle.
           </p>
 
           <Link href="/chose-layout" className="mt-3">
