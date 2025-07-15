@@ -8,6 +8,8 @@ import { useState, useRef, ReactNode, RefObject, useEffect } from "react";
 import { HexColorPicker } from "react-colorful";
 import Button from "../ui/button";
 import { LayoutOptions } from "@/app/(home)/chose-layout/page";
+import { default as NextImage } from "next/image";
+import { backgroundImage } from "@/constanta/data";
 
 const frameColors = [
   { color: "#B20000" },
@@ -319,6 +321,22 @@ const CardPreview: React.FC<CardPreviewProps> = ({
               isActive={selectedFrameColor === item.color}
             />
           ))}
+
+          {/* Change background canvas */}
+          {/* {backgroundImage.map((item) => (
+            <CardColor
+              key={item.url}
+              onClick={() => setselectedFrameColor(item.url)}
+              isActive={selectedFrameColor === item.url}
+            >
+              <NextImage
+                src={item.url}
+                alt="Background"
+                width={150}
+                height={150}
+              />
+            </CardColor>
+          ))} */}
         </div>
         <Button onClick={handleDownload} className="mt-7">
           <ImageIcon /> Download Foto
@@ -346,7 +364,7 @@ const CardColor = ({
   <div
     onClick={onClick}
     className={cn(
-      "flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border",
+      `flex h-12 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border`,
       isActive ? "border-2 border-black" : "border-gray-300",
     )}
     style={{ background, backgroundColor }}
