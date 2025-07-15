@@ -28,7 +28,7 @@ const HeroSection = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center gap-3">
-          <h1 className="font-poppins text-center text-4xl font-bold">
+          <h1 className="font-poppins text-center text-3xl font-bold md:text-4xl">
             Snap your moment
           </h1>
 
