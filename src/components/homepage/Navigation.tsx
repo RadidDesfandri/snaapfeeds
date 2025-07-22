@@ -23,7 +23,7 @@ const routes = [
   },
   {
     label: "chose layout",
-    url: "/about",
+    url: "/chose-layout",
   },
 ];
 
@@ -82,8 +82,25 @@ const OpenMenuMobile = ({
     position="right"
     isOpen={isOpen}
     ref={ref}
+    width="large"
     className="min-h-screen md:hidden"
   >
-    konten here
+    <div className="mb-5 flex justify-center border-b py-3">
+      <Link href="/">
+        <Logo asChild className="w-28" />
+      </Link>
+    </div>
+
+    <div className="flex flex-col gap-4 p-5">
+      {routes.map((item) => (
+        <Link
+          href={item.url}
+          key={item.label}
+          className="border-b border-b-gray-400 py-2"
+        >
+          {item.label}
+        </Link>
+      ))}
+    </div>
   </SlideInAnimate>
 );

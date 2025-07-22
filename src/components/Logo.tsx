@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 import Image, { ImageProps } from "next/image";
 
@@ -5,7 +6,7 @@ type LogoProps = {
   asChild?: boolean;
 } & Omit<ImageProps, "src" | "alt">;
 
-const Logo = ({ asChild, ...props }: LogoProps) => {
+const Logo = ({ asChild, className, ...props }: LogoProps) => {
   const Comp = asChild ? Slot : "div";
 
   return (
@@ -16,7 +17,7 @@ const Logo = ({ asChild, ...props }: LogoProps) => {
         width={200}
         height={200}
         priority
-        className="w-40 md:w-52"
+        className={cn("w-40 md:w-52", className)}
         {...props}
       />
     </Comp>
