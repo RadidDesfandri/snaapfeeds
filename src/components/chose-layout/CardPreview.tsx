@@ -7,7 +7,7 @@ import { Image as ImageIcon } from "lucide-react";
 import { useState, useRef, ReactNode, RefObject, useEffect } from "react";
 import { HexColorPicker } from "react-colorful";
 import Button from "../ui/button";
-import { LayoutOptions } from "@/app/(home)/chose-layout/page";
+import { LayoutOptions } from "./PhotoBoothLayoutSelector";
 // import { default as NextImage } from "next/image";
 // import { backgroundImage } from "@/constanta/data";
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { LayoutOptions } from "@/app/(home)/chose-layout/page";
 import { Camera, Check, Image as ImageIcon, RotateCcw } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -11,6 +10,8 @@ import CardPreview from "./CardPreview";
 import { getDimensionsByLayout } from "@/utils/getDimensionByLayout";
 import { getPhotoSizeByLayout } from "@/utils/getPhotoSizeByLayout";
 import { cn } from "@/lib/utils";
+import { LayoutOptions } from "./PhotoBoothLayoutSelector";
+import { FilterOption } from "@/types/global-type";
 
 // 1. countdown ✅
 // 2. take, and retake picture ✅
@@ -27,15 +28,6 @@ interface PhotoSectionProps {
 }
 
 type StepPhoto = "camera" | "preview" | "cards";
-type FilterOption =
-  | "normal"
-  | "black-white"
-  | "sepia"
-  | "vintage"
-  | "warm"
-  | "blur"
-  | "contrast"
-  | "brightness";
 
 const PhotoSection = ({ isOpen, layoutOption }: PhotoSectionProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);

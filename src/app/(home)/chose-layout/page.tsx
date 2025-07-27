@@ -1,39 +1,36 @@
 "use client";
 
-import PhotoBoothLayoutSelector from "@/components/chose-layout/PhotoBoothLayoutSelector";
-import PhotoSection from "@/components/chose-layout/PhotoSection";
+import ChooseLayout from "@/components/chose-layout/ChooseLayout";
+import CameraCapture from "@/components/chose-layout/CameraCapture";
+import { StepType } from "@/types/global-type";
 import { useState } from "react";
 
-export interface LayoutOptions {
-  layoutName: string;
-  maxPhoto: number;
-}
+const MainApp = () => {
+  const [isStep, setIsStep] = useState<StepType>("choose-layout");
+  const [maxPose, setMaxPose] = useState<number>(1);
 
-const ChoseLayout = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [layoutSelected, setLayoutSelected] = useState<LayoutOptions>({
-    maxPhoto: 0,
-    layoutName: "",
-  });
-
-  const handleToggleSection = () => {
-    setIsOpen(!isOpen);
+  const handleChangeStep = (step: StepType) => {
+    setIsStep(step);
   };
 
-  const handleSelectLayout = ({ maxPhoto, layoutName }: LayoutOptions) => {
-    setLayoutSelected({ maxPhoto, layoutName });
+  const handleMaxPose = (pose: number) => {
+    setMaxPose(pose);
   };
 
   return (
     <main>
-      <PhotoBoothLayoutSelector
-        isOpen={isOpen}
-        handleToggleSection={handleToggleSection}
-        handleSelectLayout={handleSelectLayout}
+      <ChooseLayout
+        isStep={isStep}
+        handleMaxPose={handleMaxPose}
+        handleChangeStep={handleChangeStep}
       />
-      <PhotoSection isOpen={isOpen} layoutOption={layoutSelected} />
+      <CameraCapture
+        isStep={isStep}
+        maxPose={maxPose}
+        handleChangeStep={handleChangeStep}
+      />
     </main>
   );
 };
 
-export default ChoseLayout;
+export default MainApp;
