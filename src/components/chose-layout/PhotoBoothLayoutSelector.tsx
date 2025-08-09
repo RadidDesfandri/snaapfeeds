@@ -1,4 +1,4 @@
-import { photoLayout } from "@/constanta/data";
+import { photoLayout } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import { Camera, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";

@@ -9,3 +9,15 @@ export type FilterOption =
   | "blur"
   | "contrast"
   | "brightness";
+
+export type LayoutType = "horizontal" | "vertical" | "grid";
+
+export type VariantLayoutType =
+  | "no-padding"
+  | "small-padding"
+  | "large-padding";
+
+export interface SelectedLayoutValue {
+  layoutType: LayoutType;
+  variant: VariantLayoutType;
+}

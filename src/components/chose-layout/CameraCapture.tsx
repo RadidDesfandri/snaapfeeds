@@ -1,7 +1,7 @@
-import { filters, ratioOptions, timerOptions } from "@/constanta/data";
+import { filters, ratioOptions, timerOptions } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import { FilterOption, StepType } from "@/types/global-type";
-import { getRatioFoto } from "@/utils/getRatioFoto";
+import { getRatioFoto } from "@/utils/ratioIntegration";
 import { Camera, Expand, Image as ImageIcon, Minimize } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -224,7 +224,14 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
   }, [isStep]);
 
   if (isStep === "photo-editor") {
-    return <PhotoEditorAndDownload isStep={isStep} />;
+    return (
+      <PhotoEditorAndDownload
+        isStep={isStep}
+        photos={photos}
+        ratio={selectedRatio}
+        maxPhoto={maxPose}
+      />
+    );
   }
 
   if (isStep !== "camera-capture") return null;

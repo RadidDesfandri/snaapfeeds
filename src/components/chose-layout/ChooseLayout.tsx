@@ -7,9 +7,6 @@ import { StepType } from "@/types/global-type";
 
 const layoutData = [
   {
-    pose: 1,
-  },
-  {
     pose: 2,
   },
   {
@@ -17,9 +14,6 @@ const layoutData = [
   },
   {
     pose: 4,
-  },
-  {
-    pose: 5,
   },
   {
     pose: 6,
