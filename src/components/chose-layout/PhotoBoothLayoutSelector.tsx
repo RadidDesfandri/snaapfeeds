@@ -1,12 +1,15 @@
-import Image from "next/image";
-import LayoutProvider from "../LayoutProvider";
-import { Camera } from "lucide-react";
-import { Image as ImageIcon } from "lucide-react";
-import Button from "../ui/button";
-import { useState } from "react";
+import { photoLayout } from "@/constants/data";
 import { cn } from "@/lib/utils";
-import { LayoutOptions } from "@/app/(home)/chose-layout/page";
-import { photoLayout } from "@/constanta/data";
+import { Camera, Image as ImageIcon } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import LayoutProvider from "../LayoutProvider";
+import Button from "../ui/button";
+
+export interface LayoutOptions {
+  layoutName: string;
+  maxPhoto: number;
+}
 
 interface PhotoBoothLayoutSelectorProps {
   isOpen: boolean;
