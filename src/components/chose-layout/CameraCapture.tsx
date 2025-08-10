@@ -255,13 +255,13 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
               options={timerOptions}
             />
           </div>
-          <Button
+          {/* <Button
             disabled
             variant="outline"
             className="pointer-events-none rounded-full"
           >
             Upload Photo(Coming soon)
-          </Button>
+          </Button> */}
         </div>
 
         <div
@@ -317,14 +317,14 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
           )}
 
           {/* Fullscreen */}
-          <div className="absolute right-5 bottom-4">
+          <div className="absolute right-5 bottom-4 hidden md:block">
             <Button size="icon" onClick={handleFullScreen}>
               {isFullscreen ? <Minimize /> : <Expand />}
             </Button>
           </div>
         </div>
 
-        <div className="mt-3 flex w-[350px] gap-5 overflow-x-auto p-1 md:w-[740px]">
+        <div className="mt-3 flex w-full gap-5 overflow-x-auto p-1 md:w-[740px]">
           {Object.keys(filters).map((filterName) => (
             <div
               key={filterName}
@@ -349,52 +349,51 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
         </div>
       </div>
 
-      <div className="lg:mt-14">
-        <div
-          className={cn(
-            "mb-5 flex w-full max-w-[40vh] flex-row gap-4 overflow-x-auto md:w-[740px] lg:flex-col lg:overflow-y-auto lg:pr-1",
-            selectedRatio === "16:9"
-              ? "lg:max-h-[60vh] lg:w-[200px]"
-              : selectedRatio === "4:3"
-                ? "lg:max-h-[90vh] lg:w-[170px]"
-                : "lg:max-h-[72vh] lg:w-[140px]",
-          )}
-        >
-          {photos.map((photo, idx) => (
-            <div
-              key={idx}
-              onClick={() => !isTakingPhoto && openPhotoPreview(idx)}
-              className={cn(
-                "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-gray-300 text-center text-gray-600",
-                isTakingPhoto ? "pointer-events-none" : "cursor-pointer",
-                aspectRatio,
-                previewWidth,
-              )}
-            >
-              <Image
-                src={photo}
-                alt="Photo"
-                width={500}
-                height={500}
-                className="object-cover"
-              />
-            </div>
-          ))}
-          {Array.from({
-            length: maxPose - photos.length,
-          }).map((_, idx) => (
-            <div
-              key={idx}
-              className={cn(
-                "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-gray-300 text-center text-gray-600",
-                aspectRatio,
-                previewWidth,
-              )}
-            >
-              <ImageIcon />
-            </div>
-          ))}
-        </div>
+      {/* mb-5 flex w-full max-w-[40vh] flex-row gap-4 overflow-x-auto md:max-w-[100vh] lg:flex-col lg:overflow-y-auto lg:pr-1 */}
+      <div
+        className={cn(
+          "mb-5 flex w-full flex-row gap-5 overflow-x-auto p-1 md:w-[740px] lg:mt-14 lg:flex-col lg:pr-1",
+          selectedRatio === "16:9"
+            ? "lg:max-h-[60vh] lg:w-[200px]"
+            : selectedRatio === "4:3"
+              ? "lg:max-h-[90vh] lg:w-[170px]"
+              : "lg:max-h-[72vh] lg:w-[140px]",
+        )}
+      >
+        {photos.map((photo, idx) => (
+          <div
+            key={idx}
+            onClick={() => !isTakingPhoto && openPhotoPreview(idx)}
+            className={cn(
+              "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-gray-300 text-center text-gray-600",
+              isTakingPhoto ? "pointer-events-none" : "cursor-pointer",
+              aspectRatio,
+              previewWidth,
+            )}
+          >
+            <Image
+              src={photo}
+              alt="Photo"
+              width={500}
+              height={500}
+              className="object-cover"
+            />
+          </div>
+        ))}
+        {Array.from({
+          length: maxPose - photos.length,
+        }).map((_, idx) => (
+          <div
+            key={idx}
+            className={cn(
+              "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-gray-300 text-center text-gray-600",
+              aspectRatio,
+              previewWidth,
+            )}
+          >
+            <ImageIcon />
+          </div>
+        ))}
       </div>
 
       <PreviewPhoto
