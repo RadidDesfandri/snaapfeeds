@@ -34,6 +34,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
   // Countdown
   const [countdown, setCountdown] = useState<number>(selectedTimer);
   const [isTakingPhoto, setIsTakingPhoto] = useState<boolean>(false);
+  const [isFlashing, setIsFlashing] = useState<boolean>(false);
 
   const [currentFilter, setCurrentFilter] = useState<FilterOption>("normal");
 
@@ -136,24 +137,30 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
 
   const startPhoto = () => {
     setIsTakingPhoto(true);
-
     let currentCount = selectedTimer;
     let poseTaken = 0;
 
     const timer = setInterval(() => {
       if (currentCount > 0) {
-        currentCount -= 1;
         setCountdown(currentCount);
+        currentCount -= 1;
       } else {
+        // Trigger flash immediately
+        setIsFlashing(true);
+        setCountdown(0);
+
+        // Capture photo
         capturePhoto();
         poseTaken += 1;
 
+        // Reset flash after short delay
+        setTimeout(() => setIsFlashing(false), 200);
+
         if (poseTaken >= maxPose) {
           clearInterval(timer);
-          setIsTakingPhoto(false);
+          setTimeout(() => setIsTakingPhoto(false), 300);
         } else {
           currentCount = selectedTimer;
-          setCountdown(currentCount);
         }
       }
     }, 1000);
@@ -191,12 +198,22 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
 
     const timer = setInterval(() => {
       if (currentCount > 0) {
-        currentCount -= 1;
         setCountdown(currentCount);
+        currentCount -= 1;
       } else {
+        // Trigger flash immediately when photo is taken
+        setIsFlashing(true);
+        setCountdown(0);
+
+        // Capture the photo
         capturePhoto(index);
+
+        // Reset flash after short delay
+        setTimeout(() => setIsFlashing(false), 200);
+
+        // Clean up
         clearInterval(timer);
-        setIsTakingPhoto(false);
+        setTimeout(() => setIsTakingPhoto(false), 300);
       }
     }, 1000);
   };
@@ -304,8 +321,10 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
           {isTakingPhoto && (
             <div
               className={cn(
-                "pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300",
-                countdown === 0 ? "flash-effect bg-white" : "bg-black/50",
+                "pointer-events-none absolute inset-0 flex items-center justify-center",
+                isFlashing
+                  ? "flash-effect bg-white"
+                  : "bg-black/50 transition-all duration-300",
               )}
             >
               {countdown > 0 && (
