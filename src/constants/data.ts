@@ -42,9 +42,9 @@ export const backgroundImage = [
 ];
 
 export const ratioOptions = [
-  { label: "Ratio 16:9", value: "16:9" },
   { label: "Ratio 4:3", value: "4:3" },
   { label: "Ratio 1:1", value: "1:1" },
+  { label: "Ratio 16:9", value: "16:9" },
 ];
 
 export const timerOptions = [

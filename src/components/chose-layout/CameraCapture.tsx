@@ -28,7 +28,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
 
   const [photos, setPhotos] = useState<string[]>([]);
 
-  const [selectedRatio, setSelectedRatio] = useState<string>("16:9");
+  const [selectedRatio, setSelectedRatio] = useState<string>("4:3");
   const [selectedTimer, setSelectedTimer] = useState<number>(3);
 
   // Countdown

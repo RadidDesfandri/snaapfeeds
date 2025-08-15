@@ -223,10 +223,20 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
 
     renderDownloadCanvas(); // Ensure latest render
 
-    const link = document.createElement("a");
-    link.download = `snapfeeds-${Date.now()}.png`;
-    link.href = canvas.toDataURL("image/png", 1.0);
-    link.click();
+    const dataURL = canvas.toDataURL("image/png", 1.0);
+
+    const ua = navigator.userAgent || navigator.vendor;
+    const isInstagram = /Instagram/i.test(ua);
+
+    if (isInstagram) {
+      // prettier-ignore
+      alert('Tidak bisa download dari Instagram. Silakan buka di browser lain.')
+    } else {
+      const link = document.createElement("a");
+      link.download = `snapfeeds-${Date.now()}.png`;
+      link.href = dataURL;
+      link.click();
+    }
   };
 
   useEffect(() => {
