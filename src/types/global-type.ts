@@ -8,7 +8,11 @@ export type FilterOption =
   | "warm"
   | "blur"
   | "contrast"
-  | "brightness";
+  | "brightness"
+  | "y2k"
+  | "y2k-2"
+  | "dreamy"
+  | "dreamy-2";
 
 export type LayoutType = "horizontal" | "vertical" | "grid";
 
