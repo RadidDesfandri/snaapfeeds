@@ -37,9 +37,26 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
   const [isFlashing, setIsFlashing] = useState<boolean>(false);
 
   const [currentFilter, setCurrentFilter] = useState<FilterOption>("normal");
+  const [isSelectFilter, setIsSelectFilter] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
 
   // prettier-ignore
-  const handleFilterChange = (filterName: FilterOption) => setCurrentFilter(filterName);
+  const handleFilterChange = (filterName: FilterOption) => {
+  if (filterName === currentFilter) return;
+  
+  setCurrentFilter(filterName);
+  setIsSelectFilter(true);
+  setIsExiting(false);
+
+  // Mulai animasi exit setelah 500ms
+  setTimeout(() => setIsExiting(true), 500);
+  
+  // Hapus overlay setelah animasi exit selesai
+  setTimeout(() => {
+    setIsSelectFilter(false);
+    setIsExiting(false);
+  }, 800);
+};
 
   // prettier-ignore
   const { previewWidth, tailwindWidth, aspectRatio, height, width } = getRatioFoto(selectedRatio);
@@ -332,6 +349,21 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
                   {countdown}
                 </div>
               )}
+            </div>
+          )}
+
+          {isSelectFilter && (
+            <div
+              className={cn(
+                "font-poppins pointer-events-none absolute inset-0 z-10 flex items-center justify-center text-3xl font-medium text-white backdrop-blur-sm transition-all duration-300",
+                isExiting ? "scale-95 opacity-0" : "scale-100 opacity-100",
+              )}
+            >
+              <div className="backdrop-blur-md">
+                {currentFilter === "black-white"
+                  ? "BLACK & WHITE"
+                  : currentFilter.replace(/-/g, " ").toUpperCase()}
+              </div>
             </div>
           )}
 
