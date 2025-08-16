@@ -1,4 +1,30 @@
 import LayoutProvider from "@/components/LayoutProvider";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Kebijakan Privasi | Snapfeeds",
+  description:
+    "Baca kebijakan privasi Online Photobooth untuk mengetahui bagaimana kami mengelola data pengguna, keamanan informasi, dan perlindungan privasi Anda.",
+  keywords: [
+    "kebijakan privasi photobooth",
+    "privacy policy photobooth online",
+    "data pengguna photobox",
+  ],
+  alternates: {
+    canonical: "https://www.snapfeeds.fun/privacy",
+  },
+  openGraph: {
+    title: "Kebijakan Privasi | Snapfeeds",
+    description:
+      "Pelajari bagaimana Online Photobooth menjaga dan melindungi data pengguna Anda.",
+    url: "https://www.snapfeeds.fun/",
+    type: "website",
+  },
+  robots: {
+    index: true, // boleh diindex. Kalau kamu punya halaman admin atau private → bisa pakai index: false.
+    follow: true, // boleh follow link di halaman ini
+  },
+};
 
 const Privacy = () => {
   return (
