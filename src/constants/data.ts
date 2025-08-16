@@ -54,14 +54,24 @@ export const timerOptions = [
 ];
 
 export const filters = {
-  normal: "",
+  normal: "none",
   "black-white": "grayscale(100%)",
   sepia: "sepia(100%)",
-  vintage: "sepia(50%) contrast(120%) brightness(110%)",
-  warm: "hue-rotate(20deg) saturate(120%) brightness(110%)",
+  vintage: "sepia(50%) contrast(120%) brightness(110%) saturate(80%)",
+  y2k: "contrast(110%) brightness(95%) saturate(120%) hue-rotate(10deg) sepia(20%) opacity(0.95)",
+  "y2k-2":
+    "contrast(120%) brightness(90%) saturate(140%) hue-rotate(15deg) sepia(30%) blur(0.3px)",
+
+  // Filter Dreamy - memberikan efek soft dan ethereal
+  dreamy:
+    "blur(0.5px) brightness(115%) contrast(85%) saturate(130%) hue-rotate(-5deg) opacity(0.9)",
+  "dreamy-2":
+    "blur(1px) brightness(125%) contrast(80%) saturate(150%) hue-rotate(-10deg) opacity(0.85)",
+  warm: "sepia(30%) saturate(120%) brightness(110%)",
   blur: "blur(2px)",
   contrast: "contrast(150%)",
-  brightness: "brightness(130%)",
+  brightness: "brightness(120%)",
+  // Filter Y2K - memberikan efek film dengan grain dan warna kebiruan
 };
 
 export const layoutStyleOptions = [

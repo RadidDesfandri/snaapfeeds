@@ -343,17 +343,20 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
           </div>
         </div>
 
-        <div className="mt-3 flex w-full gap-5 overflow-x-auto p-1 md:w-[740px]">
+        {/* Filter */}
+        <div className="scrollbar-none mt-3 flex w-full gap-5 overflow-x-auto p-1 md:w-[740px]">
           {Object.keys(filters).map((filterName) => (
             <div
               key={filterName}
-              title={filterName}
+              title={filterName.replace("-", " ").toUpperCase()}
               onClick={() => handleFilterChange(filterName as FilterOption)}
-              className={`shrink-0 cursor-pointer overflow-hidden rounded-full border-2 transition-all ${
+              className={cn(
+                "shrink-0 cursor-pointer overflow-hidden rounded-full border-2 transition-all",
                 currentFilter === filterName
                   ? "border-blue-500 ring-2 ring-blue-300"
-                  : "border-gray-300 hover:border-gray-400"
-              }`}
+                  : "border-gray-300 hover:border-gray-400",
+                isTakingPhoto && "pointer-events-none",
+              )}
             >
               <Image
                 src="/filter-thumbnail.jpg"
