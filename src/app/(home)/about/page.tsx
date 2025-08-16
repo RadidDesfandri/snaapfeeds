@@ -1,4 +1,31 @@
 import LayoutProvider from "@/components/LayoutProvider";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tentang Kami | Snapfeeds",
+  description:
+    "Kenali lebih dekat Online Photobooth, layanan photobox digital yang menghadirkan pengalaman seru, mudah, dan praktis. Cocok untuk berbagai acara seperti pernikahan, ulang tahun, dan event perusahaan.",
+  keywords: [
+    "tentang photobooth",
+    "photobox digital",
+    "photobooth online",
+    "photobooth event indonesia",
+  ],
+  alternates: {
+    canonical: "https://www.snapfeeds.fun/about",
+  },
+  openGraph: {
+    title: "Tentang Kami | Snapfeeds",
+    description:
+      "Kenali Online Photobooth lebih dekat – layanan photobox digital untuk berbagai event spesial Anda.",
+    url: "https://www.snapfeeds.fun/",
+    type: "website",
+  },
+  robots: {
+    index: true, // boleh diindex
+    follow: true, // boleh follow link di halaman ini. Kalau kamu punya halaman admin atau private → bisa pakai index: false.
+  },
+};
 
 const About = () => {
   return (

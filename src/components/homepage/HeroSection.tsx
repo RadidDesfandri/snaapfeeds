@@ -11,7 +11,7 @@ const HeroSection = () => {
         <div className="absolute left-14 hidden lg:block">
           <Image
             src="/photo-layouts/layout-a.png"
-            alt="Photobooth"
+            alt="Photobooth online cetak foto instan"
             width={400}
             height={400}
             className="w-44"
@@ -20,7 +20,7 @@ const HeroSection = () => {
         <div className="absolute right-14 hidden lg:block">
           <Image
             src="/photo-layouts/layout-b.png"
-            alt="Photobooth"
+            alt="Photobooth online cetak foto instan"
             width={400}
             height={400}
             className="w-44"
