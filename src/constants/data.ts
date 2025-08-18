@@ -29,18 +29,6 @@ export const photoLayout = [
   },
 ];
 
-export const backgroundImage = [
-  { url: "/background-frame/1.png" },
-  { url: "/background-frame/2.png" },
-  { url: "/background-frame/3.png" },
-  { url: "/background-frame/4.png" },
-  { url: "/background-frame/5.png" },
-  { url: "/background-frame/6.png" },
-  { url: "/background-frame/7.png" },
-  { url: "/background-frame/8.png" },
-  { url: "/background-frame/10.png" },
-];
-
 export const ratioOptions = [
   { label: "Ratio 4:3", value: "4:3" },
   { label: "Ratio 1:1", value: "1:1" },
@@ -145,7 +133,7 @@ export const layoutStyleOptions = [
   },
 ];
 
-export const frameColors = [
+export const colorOptions = [
   { color: "#B20000" },
   { color: "#FCF1F1" },
   { color: "#EEF1BC" },
@@ -157,3 +145,56 @@ export const frameColors = [
   { color: "#A5ECD7" },
   { color: "#F2899A" },
 ];
+
+export const backgroundOptions = [
+  { src: "/background-frame/1.png" },
+  { src: "/background-frame/2.png" },
+  { src: "/background-frame/3.png" },
+  { src: "/background-frame/4.png" },
+  { src: "/background-frame/5.png" },
+  { src: "/background-frame/6.png" },
+  { src: "/background-frame/7.png" },
+  { src: "/background-frame/8.png" },
+  { src: "/background-frame/9.png" },
+];
+
+export const backgroundGradientOptions = [
+  {
+    id: "gradient1",
+    name: "Sunset",
+    gradient: "linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)",
+    colors: ["#ff9a9e", "#fecfef"],
+  },
+  {
+    id: "gradient2",
+    name: "Ocean",
+    gradient: "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
+    colors: ["#667eea", "#764ba2"],
+  },
+  {
+    id: "gradient3",
+    name: "Forest",
+    gradient: "linear-gradient(45deg, #667db6 0%, #0082c8 100%)",
+    colors: ["#667db6", "#0082c8"],
+  },
+  {
+    id: "gradient4",
+    name: "Purple",
+    gradient: "linear-gradient(45deg, #a8edea 0%, #fed6e3 100%)",
+    colors: ["#a8edea", "#fed6e3"],
+  },
+  {
+    id: "gradient5",
+    name: "Fire",
+    gradient: "linear-gradient(45deg, #ff6b6b 0%, #feca57 100%)",
+    colors: ["#ff6b6b", "#feca57"],
+  },
+  {
+    id: "gradient6",
+    name: "Sky",
+    gradient: "linear-gradient(180deg, #74b9ff 0%, #0984e3 100%)",
+    colors: ["#74b9ff", "#0984e3"],
+  },
+];
+
+export const backgroundTypeOptions = ["color", "gradient", "image"];
