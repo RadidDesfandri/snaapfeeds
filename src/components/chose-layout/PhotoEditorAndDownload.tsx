@@ -9,8 +9,15 @@ import { Checkbox } from "../ui/checkbox";
 import CardColor from "./CardColor";
 import { HexColorPicker } from "react-colorful";
 import { X, Image as ImageIcon } from "lucide-react";
-import { frameColors } from "@/constants/data";
+import {
+  backgroundGradientOptions,
+  backgroundOptions,
+  backgroundTypeOptions,
+  colorOptions,
+} from "@/constants/data";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import NextImage from "next/image";
+import { cn } from "@/lib/utils";
 
 interface PhotoEditorAndDownloadProps {
   isStep: StepType;
@@ -25,6 +32,8 @@ interface ImageLoadedType {
   loaded: boolean;
   src: string;
 }
+
+type BackgroundType = "color" | "gradient" | "image";
 
 const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
   isStep,
@@ -58,13 +67,46 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
   const [logoImage, setLogoImage] = useState<HTMLImageElement | null>(null);
   const [showDate, setShowDate] = useState<boolean>(false);
 
+  const [backgroundType, setBackgroundType] = useState<BackgroundType>("color");
+
   // Color frame
   // prettier-ignore
-  const [selectedFrameColor, setselectedFrameColor] = useState<string>("#FFFFFF");
+  const [selectedFrameColor, setselectedFrameColor] = useState<string | null>("#FFFFFF");
   const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const colorRef = useRef<HTMLDivElement | null>(null);
 
+  // prettier-ignore
+  const [selectedBackground, setSelectedBackground] = useState<string | null>(null);
+  // prettier-ignore
+  const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement | null>(null);
+  // prettier-ignore
+  const [selectedBackgroundGradient, setSelectedBackgroundGradient] = useState<string>();
+
   useClickOutside([colorRef], () => setShowColorPicker(false), showColorPicker);
+
+  const createGradient = useCallback(
+    (
+      ctx: CanvasRenderingContext2D,
+      width: number,
+      height: number,
+      gradientId: string,
+    ) => {
+      const gradientOption = backgroundGradientOptions.find(
+        (g) => g.id === gradientId,
+      );
+      if (!gradientOption) return null;
+
+      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      gradientOption.colors.forEach((color, index) => {
+        gradient.addColorStop(
+          index / (gradientOption.colors.length - 1),
+          color,
+        );
+      });
+      return gradient;
+    },
+    [],
+  );
 
   // Render Preview Canvas
   const renderPreviewCanvas = useCallback(() => {
@@ -87,9 +129,27 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
     canvas.width = previewWidth;
     canvas.height = previewHeight;
 
-    // Clear canvas
-    ctx.fillStyle = selectedFrameColor;
-    ctx.fillRect(0, 0, previewWidth, previewHeight);
+    // Draw background
+    if (backgroundType === "image" && backgroundImage) {
+      // Draw background image to fill entire canvas
+      ctx.drawImage(backgroundImage, 0, 0, previewWidth, previewHeight);
+    } else if (backgroundType === "gradient") {
+      // Draw gradient background
+      const gradient = createGradient(
+        ctx,
+        previewWidth,
+        previewHeight,
+        selectedBackgroundGradient!,
+      );
+      if (gradient) {
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, previewWidth, previewHeight);
+      }
+    } else {
+      // Draw solid color background
+      ctx.fillStyle = selectedFrameColor || "#fff";
+      ctx.fillRect(0, 0, previewWidth, previewHeight);
+    }
 
     loadedImages.forEach((imageData, index) => {
       if (imageData.loaded && imageData.image) {
@@ -150,10 +210,14 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
       );
     }
   }, [
+    backgroundImage,
+    backgroundType,
+    createGradient,
     loadedImages,
     logoImage,
     maxPhoto,
     ratio,
+    selectedBackgroundGradient,
     selectedFrameColor,
     selectedLayout,
     showDate,
@@ -173,9 +237,27 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
     canvas.width = layout.canvas.width!;
     canvas.height = layout.canvas.height!;
 
-    // Clear canvas
-    ctx.fillStyle = selectedFrameColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Draw background
+    if (backgroundType === "image" && backgroundImage) {
+      // Draw background image to fill entire canvas
+      ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    } else if (backgroundType === "gradient") {
+      // Draw gradient background
+      const gradient = createGradient(
+        ctx,
+        canvas.width,
+        canvas.height,
+        selectedBackgroundGradient || "#fff",
+      );
+      if (gradient) {
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    } else {
+      // Draw solid color background
+      ctx.fillStyle = selectedFrameColor || "#fff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
 
     loadedImages.forEach((imageData, index) => {
       if (imageData.loaded && imageData.image) {
@@ -207,14 +289,29 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
       ctx.fillText(currentDate, datePos.x, datePos.y);
     }
   }, [
+    backgroundImage,
+    backgroundType,
+    createGradient,
     loadedImages,
     logoImage,
     maxPhoto,
     ratio,
+    selectedBackgroundGradient,
     selectedFrameColor,
     selectedLayout,
     showDate,
   ]);
+
+  const handleChangeColor = (color: string) => {
+    setSelectedBackground(null);
+    setBackgroundImage(null);
+    setselectedFrameColor(color);
+  };
+
+  const handleChangeBackground = (imageSrc: string) => {
+    setselectedFrameColor(null);
+    setSelectedBackground(imageSrc);
+  };
 
   const handleDownload = () => {
     const canvas = downloadCanvasRef.current;
@@ -282,6 +379,28 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
     img.src = "/logo-no-bg.png";
   }, []);
 
+  // Load background image
+  useEffect(() => {
+    const bgOption = backgroundOptions.find(
+      (item) => selectedBackground === item.src,
+    );
+
+    if (!bgOption) {
+      setBackgroundImage(null);
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () => {
+      setBackgroundImage(img);
+    };
+    img.onerror = () => {
+      console.error("Failed to load background image:", bgOption.src);
+      setBackgroundImage(null);
+    };
+    img.src = bgOption.src;
+  }, [selectedBackground]);
+
   if (!isStep || isStep !== "photo-editor") return null;
 
   return (
@@ -325,37 +444,116 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
           </div>
         </div>
 
-        {/* Frame Color */}
-        <h1 className="font-poppins mb-2 font-medium">Frame Color</h1>
-        <div className="mb-6 grid w-fit grid-cols-6 gap-4 lg:grid-cols-5">
-          <div ref={colorRef} className="relative inline-block">
-            <CardColor
-              onClick={() => setShowColorPicker(!showColorPicker)}
-              background="conic-gradient(red, yellow, lime, cyan, blue, magenta, red)"
-            />
-            {showColorPicker && (
-              <div className="absolute top-14 left-4 z-50">
-                <HexColorPicker
-                  color={selectedFrameColor}
-                  onChange={setselectedFrameColor}
-                />
-              </div>
-            )}
-          </div>
-          <CardColor
-            onClick={() => setselectedFrameColor("#FFFFFF")}
-            isActive={selectedFrameColor === "#FFFFFF"}
-          >
-            <X />
-          </CardColor>
-          {frameColors.map((item) => (
-            <CardColor
-              key={item.color}
-              onClick={() => setselectedFrameColor(item.color)}
-              backgroundColor={item.color}
-              isActive={selectedFrameColor === item.color}
-            />
+        {/* Background section */}
+        <h1 className="font-poppins mb-3 font-medium">Background</h1>
+        <div className="mb-4 flex rounded-lg border border-gray-300 p-1">
+          {backgroundTypeOptions.map((item, index) => (
+            <button
+              key={item}
+              className={cn(
+                "flex-1 cursor-pointer capitalize transition-colors",
+                backgroundType === item ? "font-bold" : "font-light",
+                index !== backgroundTypeOptions.length - 1 &&
+                  "border-r-2 border-gray-300",
+              )}
+              onClick={() => setBackgroundType(item as BackgroundType)}
+            >
+              {item}
+            </button>
           ))}
+        </div>
+
+        <div className="mb-6 grid w-fit grid-cols-6 gap-4 lg:grid-cols-5">
+          {backgroundType === "color" && (
+            <>
+              <div ref={colorRef} className="relative inline-block">
+                <CardColor
+                  onClick={() => setShowColorPicker(!showColorPicker)}
+                  background="conic-gradient(red, yellow, lime, cyan, blue, magenta, red)"
+                />
+                {showColorPicker && (
+                  <div className="absolute top-14 left-4 z-50">
+                    <HexColorPicker
+                      color={selectedFrameColor || "#fff"}
+                      onChange={setselectedFrameColor}
+                    />
+                  </div>
+                )}
+              </div>
+              <CardColor
+                onClick={() => setselectedFrameColor("#FFFFFF")}
+                isActive={selectedFrameColor === "#FFFFFF"}
+              >
+                <X />
+              </CardColor>
+              {colorOptions.map((item) => (
+                <CardColor
+                  key={item.color}
+                  onClick={() => handleChangeColor(item.color)}
+                  backgroundColor={item.color}
+                  isActive={selectedFrameColor === item.color}
+                />
+              ))}
+            </>
+          )}
+
+          {backgroundType === "gradient" && (
+            <>
+              {backgroundGradientOptions.map((item) => (
+                <CardColor
+                  key={item.id}
+                  onClick={() => setSelectedBackgroundGradient(item.id)}
+                  background={item.gradient}
+                  isActive={item.id === selectedBackgroundGradient}
+                />
+                // <div
+                //   key={item.id}
+                //   onClick={() => setSelectedBackgroundGradient(item.id)}
+                //   className={cn(
+                //     "relative cursor-pointer rounded-lg border p-1 transition-all",
+                //     selectedBackgroundGradient === item.id
+                //       ? "border-2 border-black"
+                //       : "border-gray-300",
+                //   )}
+                // >
+                //   <div
+                //     style={{ background: item.gradient }}
+                //     className="aspect-video rounded"
+                //   ></div>
+                //   <p className="mt-1 text-center text-xs text-gray-700">
+                //     {item.name}
+                //   </p>
+                //   {selectedBackgroundGradient === item.id && (
+                //     <div className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-blue-500">
+                //       <div className="flex h-full w-full items-center justify-center">
+                //         <div className="h-2 w-2 rounded-full bg-white"></div>
+                //       </div>
+                //     </div>
+                //   )}
+                // </div>
+              ))}
+            </>
+          )}
+
+          {backgroundType === "image" && (
+            <>
+              {backgroundOptions.map((item, index) => (
+                <CardColor
+                  key={index}
+                  onClick={() => handleChangeBackground(item.src)}
+                  isActive={selectedBackground === item.src}
+                >
+                  <NextImage
+                    src={item.src}
+                    alt={`Background-${index}`}
+                    width={500}
+                    height={500}
+                    className="object-cover"
+                  />
+                </CardColor>
+              ))}
+            </>
+          )}
         </div>
 
         <Button onClick={handleDownload}>
