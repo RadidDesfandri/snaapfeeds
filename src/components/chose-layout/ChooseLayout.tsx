@@ -1,22 +1,34 @@
+import { StepType } from "@/types/global-type";
 import { Camera } from "lucide-react";
+import { useState } from "react";
 import LayoutProvider from "../LayoutProvider";
 import Button from "../ui/button";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { StepType } from "@/types/global-type";
+import CardLayout from "./CardLayout";
 
 const layoutData = [
   {
+    name: "Layout A",
+    description: "2 poses for photostrip",
     pose: 2,
+    imageUrl: "/photo-layouts/layout-a2.png",
   },
   {
+    name: "Layout B",
+    description: "3 poses for photostrip",
     pose: 3,
+    imageUrl: "/photo-layouts/layout-b2.png",
   },
   {
+    name: "Layout C",
+    description: "4 poses for photostrip",
     pose: 4,
+    imageUrl: "/photo-layouts/layout-c2.png",
   },
   {
+    name: "Layout D",
+    description: "6 poses for photostrip",
     pose: 6,
+    imageUrl: "/photo-layouts/layout-d2.png",
   },
 ];
 
@@ -54,21 +66,17 @@ const ChooseLayout: React.FC<ChooseLayoutProps> = ({
         </p>
       </div>
 
-      <div className="scrollbar-none mx-auto flex max-w-6xl flex-col items-center gap-4 overflow-x-auto p-0 md:flex-row md:gap-6 md:p-1">
-        {layoutData.map((data, idx) => (
-          <div
-            key={idx}
-            onClick={() => handleSelectLayout(data.pose)}
-            onDoubleClick={() => handleChangeStep("camera-capture")}
-            className={cn(
-              "cursor-pointer rounded-xl border p-5 transition-all duration-300 hover:shadow-md",
-              isSelectedLayout == String(data.pose)
-                ? "scale-[101%] border-2 border-neutral-800"
-                : "border-gray-300",
-            )}
-          >
-            Max Pose: {data.pose}
-          </div>
+      <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-7 lg:grid-cols-4">
+        {layoutData.map((data) => (
+          <CardLayout
+            key={data.name}
+            descriprion={data.description}
+            imageUrl={data.imageUrl}
+            name={data.name}
+            isSelected={isSelectedLayout == String(data.pose)}
+            poses={data.pose}
+            onSelected={() => handleSelectLayout(data.pose)}
+          />
         ))}
       </div>
 
