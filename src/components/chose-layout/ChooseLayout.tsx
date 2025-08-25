@@ -28,7 +28,7 @@ const layoutData = [
     name: "Layout D",
     description: "6 poses for photostrip",
     pose: 6,
-    imageUrl: "/photo-layouts/layout-d.png",
+    imageUrl: "/photo-layouts/6-pose.jpg",
   },
 ];
 
