@@ -10,13 +10,13 @@ const layoutData = [
     name: "Layout A",
     description: "2 poses for photostrip",
     pose: 2,
-    imageUrl: "/photo-layouts/layout-a2.png",
+    imageUrl: "/photo-layouts/layout-b2.png",
   },
   {
     name: "Layout B",
     description: "3 poses for photostrip",
     pose: 3,
-    imageUrl: "/photo-layouts/layout-b2.png",
+    imageUrl: "/photo-layouts/layout-a2.png",
   },
   {
     name: "Layout C",
