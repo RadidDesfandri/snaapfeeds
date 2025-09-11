@@ -14,7 +14,7 @@ const routes = [
     url: "/",
   },
   {
-    label: "privacy dan policy",
+    label: "privacy and policy",
     url: "/privacy",
   },
   {
@@ -22,8 +22,8 @@ const routes = [
     url: "/about",
   },
   {
-    label: "chose layout",
-    url: "/chose-layout",
+    label: "choose layout",
+    url: "/choose-layout",
   },
 ];
 
