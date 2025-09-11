@@ -40,7 +40,7 @@ const HeroSection = () => {
             without any hassle.
           </p>
 
-          <Link href="/chose-layout" className="mt-3">
+          <Link href="/choose-layout" className="mt-3">
             <ButtonMoving className="flex cursor-pointer items-center gap-2 px-5 py-1">
               <Camera /> Start Taking Photos <ChevronRight />
             </ButtonMoving>
