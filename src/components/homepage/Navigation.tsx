@@ -10,7 +10,7 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 
 const routes = [
   {
-    label: "home",
+    label: "HOMEEE",
     url: "/",
   },
   {
