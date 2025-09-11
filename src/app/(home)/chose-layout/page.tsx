@@ -1,7 +1,7 @@
 "use client";
 
-import ChooseLayout from "@/components/chose-layout/ChooseLayout";
-import CameraCapture from "@/components/chose-layout/CameraCapture";
+import ChooseLayout from "@/components/choose-layout/ChooseLayout";
+import CameraCapture from "@/components/choose-layout/CameraCapture";
 import { StepType } from "@/types/global-type";
 import { useState } from "react";
 
