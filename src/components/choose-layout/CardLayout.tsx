@@ -6,11 +6,12 @@ import Image from "next/image";
 
 interface CardLayoutProps {
   name: string;
-  descriprion: string;
+  description: string;
   poses: number;
   imageUrl: string;
   isSelected: boolean;
   onSelected: () => void;
+  isCooming: boolean;
 }
 
 const CardLayout: React.FC<CardLayoutProps> = ({
@@ -19,18 +20,25 @@ const CardLayout: React.FC<CardLayoutProps> = ({
   imageUrl,
   isSelected,
   onSelected,
-  descriprion,
+  description,
+  isCooming,
 }) => {
   return (
     <div
       onClick={onSelected}
       className={cn(
-        "font-poppins flex cursor-pointer flex-col items-center justify-between rounded-2xl border p-3 transition-all duration-300 hover:shadow-md",
+        "font-poppins relative flex min-w-96 cursor-pointer flex-col items-center justify-between overflow-hidden rounded-2xl border p-3 transition-all duration-300 hover:shadow-md md:min-w-72",
         isSelected
           ? "scale-[102%] border-2 border-neutral-800"
           : "border-gray-300",
+        isCooming && "pointer-events-none opacity-70",
       )}
     >
+      {isCooming && (
+        <div className="absolute top-0 right-0 rounded-bl-lg bg-purple-600 p-1 text-xs text-white">
+          Cooming soon
+        </div>
+      )}
       <Image
         src={imageUrl}
         alt={name}
@@ -44,7 +52,7 @@ const CardLayout: React.FC<CardLayoutProps> = ({
           <Camera />
           <p className="font-semibold">{name}</p>
         </div>
-        <p className="text-sm text-neutral-700">{descriprion}</p>
+        <p className="text-center text-sm text-neutral-700">{description}</p>
         <div className="flex justify-center gap-4 text-xs">
           <div className="flex items-center gap-1 text-neutral-700">
             <Camera className="h-4 w-4" />

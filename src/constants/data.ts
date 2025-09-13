@@ -1,3 +1,5 @@
+import { LayoutData } from "@/types/global-type";
+
 export const photoLayout = [
   {
     name: "Layout A",
@@ -198,3 +200,43 @@ export const backgroundGradientOptions = [
 ];
 
 export const backgroundTypeOptions = ["color", "gradient", "image"];
+
+export const layoutData: LayoutData[] = [
+  {
+    name: "Feed Post",
+    description: "One signature snap to highlight on your feed.",
+    pose: 1,
+    imageUrl: "/photo-layouts/layout-d2.png",
+  },
+  {
+    name: "Duo Feed",
+    description: "Make a short story out of two exciting moments.",
+    pose: 2,
+    imageUrl: "/photo-layouts/layout-d2.png",
+  },
+  {
+    name: "Feed Reel",
+    description: "Three expressions in one dynamic photo reel.",
+    pose: 3,
+    imageUrl: "/photo-layouts/layout-a2.png",
+  },
+  {
+    name: "Snap Grid",
+    description: "A classic grid look that never goes out of style.",
+    pose: 4,
+    imageUrl: "/photo-layouts/layout-c2.png",
+  },
+  {
+    name: "Snap Gallery",
+    description: "Show off more moments in one mega feed.",
+    pose: 6,
+    imageUrl: "/photo-layouts/pose-6.png",
+  },
+  {
+    name: "Snap in Motion",
+    description: "Capture exciting moving moments! (Coming Soon)",
+    pose: 5,
+    coomingSoon: true,
+    imageUrl: "/photo-layouts/pose-6.png",
+  },
+];

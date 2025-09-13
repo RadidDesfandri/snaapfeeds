@@ -1,14 +1,3 @@
-import { SelectedLayoutValue, StepType } from "@/types/global-type";
-import { getAvailableLayouts, getLayoutConfig } from "@/utils/canvasUtils";
-import { useCallback, useEffect, useRef, useState } from "react";
-import LayoutProvider from "../LayoutProvider";
-import Button from "../ui/button";
-import LayoutOptions, { OptionsLayoutType } from "./LayoutOptions";
-import { formatDate } from "@/utils/formatDate";
-import { Checkbox } from "../ui/checkbox";
-import CardColor from "./CardColor";
-import { HexColorPicker } from "react-colorful";
-import { X, Image as ImageIcon } from "lucide-react";
 import {
   backgroundGradientOptions,
   backgroundOptions,
@@ -16,14 +5,24 @@ import {
   colorOptions,
 } from "@/constants/data";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import NextImage from "next/image";
 import { cn } from "@/lib/utils";
+import useStep from "@/store/useStep";
+import { SelectedLayoutValue } from "@/types/global-type";
+import { getAvailableLayouts, getLayoutConfig } from "@/utils/canvasUtils";
+import { formatDate } from "@/utils/formatDate";
+import { Image as ImageIcon, X } from "lucide-react";
+import NextImage from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { HexColorPicker } from "react-colorful";
+import LayoutProvider from "../LayoutProvider";
+import Button from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
+import CardColor from "./CardColor";
+import LayoutOptions, { OptionsLayoutType } from "./LayoutOptions";
 
 interface PhotoEditorAndDownloadProps {
-  isStep: StepType;
   photos: string[];
   ratio: string;
-  maxPhoto: number;
 }
 
 interface ImageLoadedType {
@@ -36,16 +35,16 @@ interface ImageLoadedType {
 type BackgroundType = "color" | "gradient" | "image";
 
 const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
-  isStep,
   photos,
   ratio,
-  maxPhoto,
 }) => {
+  const { step, payload } = useStep();
+
   // prettier-ignore
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const downloadCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const availableLayout = getAvailableLayouts(ratio, maxPhoto);
+  const availableLayout = getAvailableLayouts(ratio, payload.maxPhoto);
 
   const layoutOptions = availableLayout.map((item) => ({
     src: item.src,
@@ -115,7 +114,12 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    const layout = getLayoutConfig(maxPhoto, ratio, selectedLayout, logoImage);
+    const layout = getLayoutConfig(
+      payload.maxPhoto,
+      ratio,
+      selectedLayout,
+      logoImage,
+    );
 
     if (!ctx) return;
 
@@ -215,7 +219,7 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
     createGradient,
     loadedImages,
     logoImage,
-    maxPhoto,
+    payload.maxPhoto,
     ratio,
     selectedBackgroundGradient,
     selectedFrameColor,
@@ -229,7 +233,12 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    const layout = getLayoutConfig(maxPhoto, ratio, selectedLayout, logoImage);
+    const layout = getLayoutConfig(
+      payload.maxPhoto,
+      ratio,
+      selectedLayout,
+      logoImage,
+    );
 
     if (!ctx) return;
 
@@ -294,7 +303,7 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
     createGradient,
     loadedImages,
     logoImage,
-    maxPhoto,
+    payload.maxPhoto,
     ratio,
     selectedBackgroundGradient,
     selectedFrameColor,
@@ -401,7 +410,7 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
     img.src = bgOption.src;
   }, [selectedBackground]);
 
-  if (!isStep || isStep !== "photo-editor") return null;
+  if (!step || step !== "photo-editor") return null;
 
   return (
     <LayoutProvider
