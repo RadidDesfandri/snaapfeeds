@@ -33,10 +33,33 @@ const About = () => {
       <LayoutProvider className="flex-col items-start gap-3 pt-24" center>
         <h1 className="font-poppins text-5xl font-black">About Us</h1>
         <p className="font-poppins md:max-w-[600px]">
-          Instantly capture and personalize photobooth-style memories from any
-          device, anywhere, with our online tool. Choose from frame colors and
-          download high-resolution photo strips, no accounts needed. It&apos;s
-          designed for effortless creativity and shareable online fun.
+          Create and customize professional photobooth style images seamlessly
+          from any device with our web-based platform. Select from a range of
+          customization options, including frame colors, and instantly download
+          4K photo strips and no account required. Our service is engineered for
+          an intuitive creative experience, perfect for generating shareable
+          digital keepsakes. Create studio-quality photo strips instantly, from
+          any device
+        </p>
+
+        <ul className="list-disc pl-10 md:max-w-[600px]">
+          <li>
+            <b>Universal Accessibility:</b> No install or accounts required.
+            Begin creating immediately on any computer, tablet, or smartphone.
+          </li>
+          <li>
+            <b>High-Resolution Output:</b> Download crisp, 4K photo strips
+            perfect for printing or digital sharing.
+          </li>
+          <li>
+            <b>Intuitive Customization:</b> Effortlessly personalize your
+            creations with a selection of professional frame colors and layouts.
+          </li>
+        </ul>
+
+        <p className="font-poppins md:max-w-[600px]">
+          Designed for streamlined creativity and generating high-impact,
+          shareable content for any occasion.
         </p>
       </LayoutProvider>
     </main>

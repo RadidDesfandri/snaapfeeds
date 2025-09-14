@@ -34,10 +34,10 @@ const HeroSection = () => {
 
           <p className="font-poppins text-center text-sm font-medium">
             Welcome to Snapfeeds! Your go-to spot for creating awesome
-            photobooth <br className="hidden md:block" /> photos directly in
-            your browser, anytime, anywhere and free.{" "}
-            <br className="hidden md:block" /> Snap share your fun moments
-            without any hassle.
+            photobooth photos in <br className="hidden lg:block" /> stunning 4K
+            quality, directly in your browser. Anytime, anywhere, and free. Snap
+            your fun <br className="hidden lg:block" /> moments and instantly
+            share them to your favorite social media without any hassle.
           </p>
 
           <Link href="/choose-layout" className="mt-3">

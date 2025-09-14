@@ -6,9 +6,15 @@ import { Camera } from "lucide-react";
 import LayoutProvider from "../LayoutProvider";
 import Button from "../ui/button";
 import CardLayout from "./CardLayout";
+import { LayoutName } from "@/types/global-type";
 
 const ChooseLayout = () => {
   const { step, changeStep, selectLayout, payload } = useStep();
+
+  const handleDoubleClick = (layoutName: LayoutName, maxPhoto: number) => {
+    selectLayout({ layoutName, maxPhoto });
+    changeStep("camera-capture");
+  };
 
   if (step !== "choose-layout") return null;
 
@@ -27,7 +33,7 @@ const ChooseLayout = () => {
       </div>
 
       {/* grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-7 lg:grid-cols-4 */}
-      <div className="scrollbar max-w-6xl flex-col gap-4 md:flex md:flex-row md:overflow-x-auto md:p-3">
+      <div className="scrollbar flex max-w-6xl flex-col gap-4 md:flex-row md:overflow-x-auto md:p-3">
         {layoutData.map((data) => (
           <CardLayout
             key={data.name}
@@ -39,6 +45,7 @@ const ChooseLayout = () => {
             // prettier-ignore
             onSelected={() => selectLayout({layoutName: data.name, maxPhoto: data.pose})}
             isCooming={data.coomingSoon ? data.coomingSoon : false}
+            onDoubleClick={() => handleDoubleClick(data.name, data.pose)}
           />
         ))}
       </div>
