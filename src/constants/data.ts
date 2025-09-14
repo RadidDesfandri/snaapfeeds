@@ -1,46 +1,17 @@
 import { LayoutData } from "@/types/global-type";
 
-export const photoLayout = [
-  {
-    name: "Layout A",
-    description: "3 poses for photostrip",
-    poses: 3,
-    strip: 2,
-    imageUrl: "/photo-layouts/layout-a2.png",
-  },
-  {
-    name: "Layout B",
-    description: "2 poses for photostrip",
-    poses: 2,
-    strip: 2,
-    imageUrl: "/photo-layouts/layout-b2.png",
-  },
-  {
-    name: "Layout C",
-    description: "4 poses for photostrip",
-    poses: 4,
-    strip: 2,
-    imageUrl: "/photo-layouts/layout-c2.png",
-  },
-  {
-    name: "Layout D",
-    description: "2 poses for photostrip",
-    poses: 2,
-    strip: 1,
-    imageUrl: "/photo-layouts/layout-d2.png",
-  },
-];
-
-export const ratioOptions = [
-  { label: "Ratio 4:3", value: "4:3" },
-  { label: "Ratio 1:1", value: "1:1" },
-  { label: "Ratio 16:9", value: "16:9" },
-];
-
 export const timerOptions = [
   { label: "3 Second", value: "3" },
   { label: "5 Second", value: "5" },
   { label: "10 Second", value: "10" },
+];
+
+export const sizeOptions = [
+  { label: "Polaroid", value: "polaroid" },
+  { label: "4R", value: "4R" },
+  { label: "4R Portrait", value: "4R-Portrait" },
+  { label: "4R Komposisi", value: "4R-composition" },
+  { label: "2R", value: "2R" },
 ];
 
 export const filters = {
@@ -48,6 +19,7 @@ export const filters = {
   "black-white": "grayscale(100%)",
   sepia: "sepia(100%)",
   vintage: "sepia(50%) contrast(120%) brightness(110%) saturate(80%)",
+  // Filter Y2K - memberikan efek film dengan grain dan warna kebiruan
   y2k: "contrast(110%) brightness(95%) saturate(120%) hue-rotate(10deg) sepia(20%) opacity(0.95)",
   "y2k-2":
     "contrast(120%) brightness(90%) saturate(140%) hue-rotate(15deg) sepia(30%) blur(0.3px)",
@@ -61,79 +33,8 @@ export const filters = {
   blur: "blur(2px)",
   contrast: "contrast(150%)",
   brightness: "brightness(120%)",
-  // Filter Y2K - memberikan efek film dengan grain dan warna kebiruan
 };
 
-export const layoutStyleOptions = [
-  // Horizontal configuration
-  {
-    src: "", // for image
-    layoutType: "horizontal",
-    variant: "no-padding", // 0 padding
-    forRatio: ["16:9"],
-    forPoses: [2],
-  },
-  {
-    src: "", // for image
-    layoutType: "horizontal",
-    variant: "small-padding", // 20 padding
-    forRatio: ["16:9"],
-    forPoses: [2],
-  },
-  {
-    src: "", // for image
-    layoutType: "horizontal",
-    variant: "large-padding", // 20 padding
-    forRatio: ["16:9"],
-    forPoses: [2],
-  },
-
-  // Vertical configuration
-  {
-    src: "", // for image
-    layoutType: "vertical",
-    variant: "no-padding",
-    forRatio: ["16:9", "4:3", "1:1"], // hanya ada jika user tidak memilih 4 pose dengan ratio 4:3
-    forPoses: [2, 3, 4],
-  },
-  {
-    src: "", // for image
-    layoutType: "vertical",
-    variant: "small-padding",
-    forRatio: ["16:9", "4:3", "1:1"], // hanya ada jika user tidak memilih 4 pose dengan ratio 4:3
-    forPoses: [2, 3, 4],
-  },
-  {
-    src: "", // for image
-    layoutType: "vertical",
-    variant: "large-padding",
-    forRatio: ["16:9", "4:3", "1:1"], // hanya ada jika user tidak memilih 4 pose dengan ratio 4:3
-    forPoses: [2, 3, 4],
-  },
-
-  // Grid configuration
-  {
-    src: "", // for image
-    layoutType: "grid",
-    variant: "no-padding",
-    forRatio: ["16:9", "4:3", "1:1"],
-    forPoses: [4, 6],
-  },
-  {
-    src: "", // for image
-    layoutType: "grid",
-    variant: "small-padding",
-    forRatio: ["16:9", "4:3", "1:1"],
-    forPoses: [4, 6],
-  },
-  {
-    src: "", // for image
-    layoutType: "grid",
-    variant: "large-padding",
-    forRatio: ["16:9", "4:3", "1:1"],
-    forPoses: [4, 6],
-  },
-];
 
 export const colorOptions = [
   { color: "#B20000" },
@@ -153,11 +54,11 @@ export const backgroundOptions = [
   { src: "/background-frame/2.png" },
   { src: "/background-frame/3.png" },
   { src: "/background-frame/4.png" },
-  { src: "/background-frame/5.png" },
+  // { src: "/background-frame/5.png" },
   { src: "/background-frame/6.png" },
   { src: "/background-frame/7.png" },
-  { src: "/background-frame/8.png" },
-  { src: "/background-frame/9.png" },
+  // { src: "/background-frame/8.png" },
+  // { src: "/background-frame/9.png" },
 ];
 
 export const backgroundGradientOptions = [
@@ -214,12 +115,12 @@ export const layoutData: LayoutData[] = [
     pose: 2,
     imageUrl: "/photo-layouts/layout-d2.png",
   },
-  {
-    name: "Feed Reel",
-    description: "Three expressions in one dynamic photo reel.",
-    pose: 3,
-    imageUrl: "/photo-layouts/layout-a2.png",
-  },
+  // {
+  //   name: "Feed Reel",
+  //   description: "Three expressions in one dynamic photo reel.",
+  //   pose: 3,
+  //   imageUrl: "/photo-layouts/layout-a2.png",
+  // },
   {
     name: "Snap Grid",
     description: "A classic grid look that never goes out of style.",

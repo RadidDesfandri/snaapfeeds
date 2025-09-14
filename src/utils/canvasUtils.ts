@@ -1,40 +1,40 @@
-import { LayoutType, VariantLayoutType } from "@/types/global-type";
-import { getRatioFoto } from "./ratioIntegration";
 import { layoutStyleOptions } from "@/constants/data";
+import { LayoutType, SizeName, VariantLayoutType } from "@/types/global-type";
+import { getSizeFoto } from "./fotoIntegration";
 
 export const getLayoutConfig = (
   poseCount: number,
-  ratio: string,
+  size: SizeName,
   selectedLayout: {
     layoutType: LayoutType;
     variant: VariantLayoutType;
   },
   logoImage?: HTMLImageElement | null,
 ) => {
-  const ratioConfig = getRatioFoto(ratio);
+  const sizeConfig = getSizeFoto(size);
   const padding = getPaddingByLayoutVariant(selectedLayout.variant);
   // Gunakan ukuran asli logo jika tersedia, fallback ke 90
   const logoHeight = logoImage?.naturalHeight || 90;
-  const logoWidth = logoImage?.naturalWidth || 135; // Default ratio 1.5
+  const logoWidth = logoImage?.naturalWidth || 135; // Default size 1.5
 
   let canvasWidth, canvasHeight, positions, logoPosition, datePosition;
 
   if (selectedLayout.layoutType === "horizontal") {
     canvasWidth =
-      ratioConfig.width * poseCount + padding * (poseCount - 1) + padding * 2;
-    canvasHeight = ratioConfig.height + padding + logoHeight * 2;
+      sizeConfig.width * poseCount + padding * (poseCount - 1) + padding * 2;
+    canvasHeight = sizeConfig.height + padding + logoHeight * 2;
 
     positions = Array.from({ length: poseCount }, (_, i) => ({
-      x: padding + i * (ratioConfig.width + padding),
+      x: padding + i * (sizeConfig.width + padding),
       y: padding,
-      width: ratioConfig.width,
-      height: ratioConfig.height,
+      width: sizeConfig.width,
+      height: sizeConfig.height,
     }));
 
     // Logo di bagian bawah kiri dengan ukuran asli
     logoPosition = {
       x: padding + 10,
-      y: ratioConfig.height + padding + 40,
+      y: sizeConfig.height + padding + 40,
       width: logoWidth,
       height: logoHeight,
     };
@@ -45,18 +45,18 @@ export const getLayoutConfig = (
       y: logoPosition.y + logoHeight / 2 + 25, // Center vertikal dengan logo
     };
   } else if (selectedLayout.layoutType === "vertical") {
-    canvasWidth = ratioConfig.width + padding * 2;
+    canvasWidth = sizeConfig.width + padding * 2;
     canvasHeight =
-      ratioConfig.height * poseCount +
+      sizeConfig.height * poseCount +
       padding * (poseCount - 1) +
       padding * 2 +
       logoHeight * 1.5;
 
     positions = Array.from({ length: poseCount }, (_, i) => ({
       x: padding,
-      y: padding + i * (ratioConfig.height + padding),
-      width: ratioConfig.width,
-      height: ratioConfig.height,
+      y: padding + i * (sizeConfig.height + padding),
+      width: sizeConfig.width,
+      height: sizeConfig.height,
     }));
 
     const yVerticalPos = selectedLayout.variant === "large-padding" ? 43 : 20;
@@ -65,7 +65,7 @@ export const getLayoutConfig = (
     logoPosition = {
       x: (canvasWidth - logoWidth) / 2,
       y:
-        ratioConfig.height * poseCount +
+        sizeConfig.height * poseCount +
         padding * (poseCount - 1) +
         padding +
         yVerticalPos,
@@ -83,19 +83,19 @@ export const getLayoutConfig = (
     const cols = Math.ceil(Math.sqrt(poseCount / 2));
     const rows = Math.ceil(poseCount / cols);
 
-    canvasWidth = ratioConfig.width * cols + padding * (cols - 1) + padding * 2;
+    canvasWidth = sizeConfig.width * cols + padding * (cols - 1) + padding * 2;
     canvasHeight =
-      ratioConfig.height * rows +
+      sizeConfig.height * rows +
       padding * (rows - 1) +
       padding * 2 +
       logoHeight;
 
-      const yGridPos = selectedLayout.variant === 'large-padding' ? 40 : 10
+    const yGridPos = selectedLayout.variant === "large-padding" ? 40 : 10;
 
     // Logo di bagian bawah kiri dengan ukuran asli
     logoPosition = {
       x: padding,
-      y: ratioConfig.height * rows + padding * (rows - 1) + padding + yGridPos,
+      y: sizeConfig.height * rows + padding * (rows - 1) + padding + yGridPos,
       width: logoWidth,
       height: logoHeight,
     };
@@ -111,10 +111,10 @@ export const getLayoutConfig = (
       const row = Math.floor(i / cols);
 
       return {
-        x: padding + col * (ratioConfig.width + padding),
-        y: padding + row * (ratioConfig.height + padding),
-        width: ratioConfig.width,
-        height: ratioConfig.height,
+        x: padding + col * (sizeConfig.width + padding),
+        y: padding + row * (sizeConfig.height + padding),
+        width: sizeConfig.width,
+        height: sizeConfig.height,
       };
     });
   }
@@ -144,13 +144,14 @@ const getPaddingByLayoutVariant = (variant: VariantLayoutType) => {
   }
 };
 
-export const getAvailableLayouts = (ratio: string, pose: number) => {
+export const getAvailableLayouts = (size: string, pose: number) => {
   return layoutStyleOptions.filter((item) => {
-    const match = item.forPoses.includes(pose) && item.forRatio.includes(ratio);
+    const match = item.forPoses.includes(pose) && item.forRatio.includes(size);
 
     // prettier-ignore
-    const isExcluded = ratio === '4:3' && pose === 4 && item.layoutType === 'vertical'
+    // const isExcluded = size === '' && pose === 4 && item.layoutType === 'vertical'
 
-    return match && !isExcluded;
+    // return match && !isExcluded;
+    return match;
   });
 };

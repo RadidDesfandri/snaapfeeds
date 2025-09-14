@@ -34,7 +34,7 @@ export default function LayoutOptions({
 }: LayoutOptionsProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const [selected, setSelected] = useState<string | null>(options[0].label);
+  const [selected, setSelected] = useState<string | null>(options[0]?.label);
 
   useClickOutside([ref], () => setIsOpen(false), isOpen);
 
