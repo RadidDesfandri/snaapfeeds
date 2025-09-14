@@ -12,6 +12,7 @@ interface CardLayoutProps {
   isSelected: boolean;
   onSelected: () => void;
   isCooming: boolean;
+  onDoubleClick: () => void;
 }
 
 const CardLayout: React.FC<CardLayoutProps> = ({
@@ -22,12 +23,14 @@ const CardLayout: React.FC<CardLayoutProps> = ({
   onSelected,
   description,
   isCooming,
+  onDoubleClick,
 }) => {
   return (
     <div
       onClick={onSelected}
+      onDoubleClick={onDoubleClick}
       className={cn(
-        "font-poppins relative flex min-w-96 cursor-pointer flex-col items-center justify-between overflow-hidden rounded-2xl border p-3 transition-all duration-300 hover:shadow-md md:min-w-72",
+        "font-poppins relative flex min-w-96 cursor-pointer flex-col items-center justify-around overflow-hidden rounded-2xl border p-3 transition-all duration-300 hover:shadow-md md:min-w-72",
         isSelected
           ? "scale-[102%] border-2 border-neutral-800"
           : "border-gray-300",
@@ -39,14 +42,19 @@ const CardLayout: React.FC<CardLayoutProps> = ({
           Cooming soon
         </div>
       )}
-      <Image
-        src={imageUrl}
-        alt={name}
-        width={400}
-        height={400}
-        priority
-        className="w-32"
-      />
+      {imageUrl.endsWith(".gift") ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={imageUrl} alt={name} className="w-40" />
+      ) : (
+        <Image
+          src={imageUrl}
+          alt={name}
+          width={500}
+          height={500}
+          priority
+          className="w-40"
+        />
+      )}
       <div className="flex flex-col items-center justify-center gap-3">
         <div className="flex items-center gap-2">
           <Camera />
@@ -58,10 +66,6 @@ const CardLayout: React.FC<CardLayoutProps> = ({
             <Camera className="h-4 w-4" />
             <span>{poses} poses</span>
           </div>
-          {/* <div className="flex items-center gap-1 text-neutral-700">
-            <ImageIcon className="h-4 w-4" />
-            <span>{strip} strip</span>
-          </div> */}
         </div>
       </div>
     </div>

@@ -107,13 +107,13 @@ export const layoutData: LayoutData[] = [
     name: "Feed Post",
     description: "One signature snap to highlight on your feed.",
     pose: 1,
-    imageUrl: "/photo-layouts/layout-d2.png",
+    imageUrl: "/photo-layouts/feed-post.png",
   },
   {
     name: "Duo Feed",
     description: "Make a short story out of two exciting moments.",
     pose: 2,
-    imageUrl: "/photo-layouts/layout-d2.png",
+    imageUrl: "/photo-layouts/duo-feed.png",
   },
   // {
   //   name: "Feed Reel",
@@ -125,19 +125,19 @@ export const layoutData: LayoutData[] = [
     name: "Snap Grid",
     description: "A classic grid look that never goes out of style.",
     pose: 4,
-    imageUrl: "/photo-layouts/layout-c2.png",
+    imageUrl: "/photo-layouts/snap-grid.png",
   },
   {
     name: "Snap Gallery",
     description: "Show off more moments in one mega feed.",
     pose: 6,
-    imageUrl: "/photo-layouts/pose-6.png",
+    imageUrl: "/photo-layouts/snap-gallery.png",
   },
   {
     name: "Snap in Motion",
     description: "Capture exciting moving moments! (Coming Soon)",
     pose: 5,
     coomingSoon: true,
-    imageUrl: "/photo-layouts/pose-6.png",
+    imageUrl: "/photo-layouts/snap-in-motion.gif",
   },
 ];

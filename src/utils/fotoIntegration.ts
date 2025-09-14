@@ -84,8 +84,8 @@ export const getLayoutConfig = (
   const finalCanvas = getFinalCanvasSize(layoutName, sizeName);
   const photoSize = getSizeFoto(sizeName);
 
-  const logoWidth = 500;
-  const logoHeight = 210;
+  const logoWidth = 300;
+  const logoHeight = 60;
 
   switch (layoutName) {
     case "Feed Post":
@@ -97,15 +97,15 @@ export const getLayoutConfig = (
           positions: [{ x: (finalCanvas.width - photoSize.width) / 2, y: 100 }],
         },
         logoConfig: {
-          x: (finalCanvas.width - 500) / 2,
-          y: finalCanvas.height - 270,
+          x: (finalCanvas.width - 300) / 2,
+          y: finalCanvas.height - 200,
           width: logoWidth,
           height: logoHeight,
           position: "bottom-center",
         },
         dateConfig: {
           x: finalCanvas.width / 2,
-          y: finalCanvas.height - 90,
+          y: finalCanvas.height - 110,
         },
       };
 
@@ -122,15 +122,15 @@ export const getLayoutConfig = (
             ],
           },
           logoConfig: {
-            x: (finalCanvas.width - 500) / 2,
-            y: finalCanvas.height - 190,
+            x: (finalCanvas.width - 300) / 2,
+            y: finalCanvas.height - 100,
             width: logoWidth,
             height: logoHeight,
             position: "bottom-center",
           },
           dateConfig: {
             x: finalCanvas.width / 2,
-            y: finalCanvas.height - 20,
+            y: finalCanvas.height - 15,
           },
         };
       }
@@ -145,15 +145,15 @@ export const getLayoutConfig = (
           ],
         },
         logoConfig: {
-          x: (finalCanvas.width - 500) / 2,
-          y: finalCanvas.height - 230,
+          x: (finalCanvas.width - 300) / 2,
+          y: finalCanvas.height - 130,
           width: logoWidth,
           height: logoHeight,
           position: "bottom-center",
         },
         dateConfig: {
           x: finalCanvas.width / 2,
-          y: finalCanvas.height - 50,
+          y: finalCanvas.height - 40,
         },
       };
 
@@ -200,15 +200,15 @@ export const getLayoutConfig = (
           ],
         },
         logoConfig: {
-          x: (finalCanvas.width - 500) / 2,
-          y: finalCanvas.height - 180,
+          x: 30,
+          y: finalCanvas.height - 80,
           width: logoWidth,
           height: logoHeight,
-          position: "bottom-center",
+          position: "bottom-left",
         },
         dateConfig: {
-          x: finalCanvas.width / 2,
-          y: finalCanvas.height - 10,
+          x: 420,
+          y: finalCanvas.height - 40,
         },
       };
 
@@ -228,15 +228,15 @@ export const getLayoutConfig = (
           ],
         },
         logoConfig: {
-          x: (finalCanvas.width - 500) / 2,
-          y: finalCanvas.height - 180,
+          x: 30,
+          y: finalCanvas.height - 80,
           width: logoWidth,
           height: logoHeight,
-          position: "bottom-center",
+          position: "bottom-left",
         },
         dateConfig: {
-          x: finalCanvas.width / 2,
-          y: finalCanvas.height - 10,
+          x: 420,
+          y: finalCanvas.height - 40,
         },
       };
 
@@ -249,10 +249,10 @@ export const getLayoutConfig = (
           positions: [{ x: 0, y: 0 }],
         },
         logoConfig: {
-          x: (finalCanvas.width - 500) / 2,
+          x: (finalCanvas.width - 300) / 2,
           y: finalCanvas.height - 230,
-          width: 500,
-          height: 210,
+          width: logoWidth,
+          height: logoHeight,
           position: "bottom-center",
         },
         dateConfig: {
