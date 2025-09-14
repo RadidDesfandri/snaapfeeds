@@ -1,7 +1,14 @@
-import { filters, ratioOptions, timerOptions } from "@/constants/data";
+"use client";
+
+import { filters, timerOptions } from "@/constants/data";
 import { cn } from "@/lib/utils";
-import { FilterOption, StepType } from "@/types/global-type";
-import { getRatioFoto } from "@/utils/ratioIntegration";
+import useStep from "@/store/useStep";
+import { FilterOption, SizeName } from "@/types/global-type";
+import {
+  getDefaultSize,
+  getSizeFoto,
+  getSizeOptions,
+} from "@/utils/fotoIntegration";
 import { Camera, Expand, Image as ImageIcon, Minimize } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -11,25 +18,22 @@ import Dropdown from "../ui/dropdown";
 import PhotoEditorAndDownload from "./PhotoEditorAndDownload";
 import PreviewPhoto from "./PreviewPhoto";
 
-interface CameraCaptureProps {
-  isStep: StepType;
-  maxPose: number;
-  handleChangeStep: (step: StepType) => void;
-}
+const CameraCapture = () => {
+  const { step, changeStep, payload } = useStep();
 
-const CameraCapture: React.FC<CameraCaptureProps> = ({
-  isStep,
-  maxPose,
-  handleChangeStep,
-}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoContainerRef = useRef<HTMLDivElement | null>(null);
 
   const [photos, setPhotos] = useState<string[]>([]);
 
-  const [selectedRatio, setSelectedRatio] = useState<string>("4:3");
+  const defaultSize = getDefaultSize(payload.layoutName!);
+
+  const [sizeName, setsizeName] = useState<string>(defaultSize);
+
   const [selectedTimer, setSelectedTimer] = useState<number>(3);
+
+  const sizeOptions = getSizeOptions(payload.layoutName!);
 
   // Countdown
   const [countdown, setCountdown] = useState<number>(selectedTimer);
@@ -40,26 +44,25 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
   const [isSelectFilter, setIsSelectFilter] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
-  // prettier-ignore
   const handleFilterChange = (filterName: FilterOption) => {
-  if (filterName === currentFilter) return;
-  
-  setCurrentFilter(filterName);
-  setIsSelectFilter(true);
-  setIsExiting(false);
+    if (filterName === currentFilter) return;
 
-  // Mulai animasi exit setelah 500ms
-  setTimeout(() => setIsExiting(true), 500);
-  
-  // Hapus overlay setelah animasi exit selesai
-  setTimeout(() => {
-    setIsSelectFilter(false);
+    setCurrentFilter(filterName);
+    setIsSelectFilter(true);
     setIsExiting(false);
-  }, 800);
-};
+
+    // Mulai animasi exit setelah 500ms
+    setTimeout(() => setIsExiting(true), 500);
+
+    // Hapus overlay setelah animasi exit selesai
+    setTimeout(() => {
+      setIsSelectFilter(false);
+      setIsExiting(false);
+    }, 800);
+  };
 
   // prettier-ignore
-  const { previewWidth, tailwindWidth, aspectRatio, height, width } = getRatioFoto(selectedRatio);
+  const { previewWidth, tailwindWidth, aspectRatio, height, width } = getSizeFoto(sizeName as SizeName);
 
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
@@ -173,7 +176,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
         // Reset flash after short delay
         setTimeout(() => setIsFlashing(false), 200);
 
-        if (poseTaken >= maxPose) {
+        if (poseTaken >= payload.maxPhoto) {
           clearInterval(timer);
           setTimeout(() => setIsTakingPhoto(false), 300);
         } else {
@@ -252,39 +255,46 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
   }, [selectedTimer]);
 
   useEffect(() => {
-    if (isStep === "camera-capture") {
+    if (step === "camera-capture") {
       startCamera();
     }
-  }, [isStep]);
+  }, [step]);
 
-  if (isStep === "photo-editor") {
+  useEffect(() => {
+    const newDefault = getDefaultSize(payload.layoutName!);
+    setsizeName(newDefault);
+  }, [payload.layoutName]);
+
+  if (step === "photo-editor") {
     return (
-      <PhotoEditorAndDownload
-        isStep={isStep}
-        photos={photos}
-        ratio={selectedRatio}
-        maxPhoto={maxPose}
-      />
+      <PhotoEditorAndDownload photos={photos} sizeName={sizeName as SizeName} />
     );
   }
 
-  if (isStep !== "camera-capture") return null;
+  if (step !== "camera-capture") return null;
 
   return (
     <LayoutProvider
       center
       className="flex-col items-start gap-9 pt-24 pb-10 lg:flex-row"
     >
-      <div>
+      <div className="bg-gray-100/60 p-1 rounded">
         <div className="mb-4 flex items-center justify-between">
-          <div className="flex w-[70%] items-center gap-4 md:w-[55%]">
+          <div
+            className={cn(
+              "flex items-center gap-4",
+              sizeOptions.length > 1 ? "w-[70%] md:w-[55%]" : "w-fit",
+            )}
+          >
+            {sizeOptions.length > 1 && (
+              <Dropdown
+                disabled={isTakingPhoto || payload.maxPhoto === photos.length}
+                onChange={(value) => setsizeName(value)}
+                options={sizeOptions}
+              />
+            )}
             <Dropdown
-              disabled={isTakingPhoto || maxPose === photos.length}
-              onChange={(value) => setSelectedRatio(value)}
-              options={ratioOptions}
-            />
-            <Dropdown
-              disabled={isTakingPhoto || maxPose === photos.length}
+              disabled={isTakingPhoto || payload.maxPhoto === photos.length}
               onChange={(value) => setSelectedTimer(Number(value))}
               options={timerOptions}
             />
@@ -320,9 +330,9 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
             style={{ filter: filters[currentFilter] }}
           />
           <div className="font-poppins absolute top-4 left-1/2 -translate-x-1/2 transform rounded-md bg-black/40 p-2 px-4 text-xs text-white">
-            {photos.length}/{maxPose}
+            {photos.length}/{payload.maxPhoto}
           </div>
-          {maxPose !== photos.length && (
+          {payload.maxPhoto !== photos.length && (
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 transform">
               <Button
                 size="lg"
@@ -376,7 +386,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
         </div>
 
         {/* Filter */}
-        <div className="scrollbar-none mt-3 flex w-full gap-5 overflow-x-auto p-1 md:w-[740px]">
+        <div className="scrollbar mt-3 flex w-full gap-5 overflow-x-auto p-2 md:w-[740px]">
           {Object.keys(filters).map((filterName) => (
             <div
               key={filterName}
@@ -406,10 +416,10 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
       {/* mb-5 flex w-full max-w-[40vh] flex-row gap-4 overflow-x-auto md:max-w-[100vh] lg:flex-col lg:overflow-y-auto lg:pr-1 */}
       <div
         className={cn(
-          "mb-5 flex w-full flex-row gap-5 overflow-x-auto p-1 md:w-[740px] lg:mt-14 lg:flex-col lg:pr-1",
-          selectedRatio === "16:9"
-            ? "lg:max-h-[60vh] lg:w-[200px]"
-            : selectedRatio === "4:3"
+          "mb-5 flex w-full flex-row gap-5 scrollbar overflow-x-auto p-1 md:w-[740px] lg:mt-14 lg:flex-col lg:pr-1",
+          sizeName === "4R"
+            ? "lg:max-h-[70vh] lg:w-[180px]"
+            : sizeName === "2R"
               ? "lg:max-h-[90vh] lg:w-[170px]"
               : "lg:max-h-[72vh] lg:w-[140px]",
         )}
@@ -435,7 +445,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
           </div>
         ))}
         {Array.from({
-          length: maxPose - photos.length,
+          length: payload.maxPhoto - photos.length,
         }).map((_, idx) => (
           <div
             key={idx}
@@ -461,11 +471,11 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
       />
 
       {/* Next step */}
-      {maxPose === photos.length && (
+      {payload.maxPhoto === photos.length && (
         <div className="fixed right-8 bottom-10 md:right-14 md:bottom-5 lg:right-32">
           <Button
-            disabled={maxPose !== photos.length}
-            onClick={() => handleChangeStep("photo-editor")}
+            disabled={payload.maxPhoto !== photos.length}
+            onClick={() => changeStep("photo-editor")}
           >
             Next Step
           </Button>

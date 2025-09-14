@@ -1,56 +1,16 @@
-import { StepType } from "@/types/global-type";
+"use client";
+
+import { layoutData } from "@/constants/data";
+import useStep from "@/store/useStep";
 import { Camera } from "lucide-react";
-import { useState } from "react";
 import LayoutProvider from "../LayoutProvider";
 import Button from "../ui/button";
 import CardLayout from "./CardLayout";
 
-const layoutData = [
-  {
-    name: "Layout A",
-    description: "2 poses for photostrip",
-    pose: 2,
-    imageUrl: "/photo-layouts/layout-d2.png",
-  },
-  {
-    name: "Layout B",
-    description: "3 poses for photostrip",
-    pose: 3,
-    imageUrl: "/photo-layouts/layout-a2.png",
-  },
-  {
-    name: "Layout C",
-    description: "4 poses for photostrip",
-    pose: 4,
-    imageUrl: "/photo-layouts/layout-c2.png",
-  },
-  {
-    name: "Layout D",
-    description: "6 poses for photostrip",
-    pose: 6,
-    imageUrl: "/photo-layouts/pose-6.png",
-  },
-];
+const ChooseLayout = () => {
+  const { step, changeStep, selectLayout, payload } = useStep();
 
-interface ChooseLayoutProps {
-  isStep: StepType;
-  handleChangeStep: (step: StepType) => void;
-  handleMaxPose: (pose: number) => void;
-}
-
-const ChooseLayout: React.FC<ChooseLayoutProps> = ({
-  handleChangeStep,
-  isStep,
-  handleMaxPose,
-}) => {
-  const [isSelectedLayout, setIsSelectedLayout] = useState<string | null>(null);
-
-  const handleSelectLayout = (pose: number) => {
-    handleMaxPose(pose);
-    setIsSelectedLayout(String(pose));
-  };
-
-  if (isStep !== "choose-layout") return null;
+  if (step !== "choose-layout") return null;
 
   return (
     <LayoutProvider center className="flex-col pt-24 pb-9">
@@ -66,24 +26,27 @@ const ChooseLayout: React.FC<ChooseLayoutProps> = ({
         </p>
       </div>
 
-      <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-7 lg:grid-cols-4">
+      {/* grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-7 lg:grid-cols-4 */}
+      <div className="scrollbar max-w-6xl flex-col gap-4 md:flex md:flex-row md:overflow-x-auto md:p-3">
         {layoutData.map((data) => (
           <CardLayout
             key={data.name}
-            descriprion={data.description}
+            description={data.description}
             imageUrl={data.imageUrl}
             name={data.name}
-            isSelected={isSelectedLayout == String(data.pose)}
+            isSelected={payload.layoutName == data.name}
             poses={data.pose}
-            onSelected={() => handleSelectLayout(data.pose)}
+            // prettier-ignore
+            onSelected={() => selectLayout({layoutName: data.name, maxPhoto: data.pose})}
+            isCooming={data.coomingSoon ? data.coomingSoon : false}
           />
         ))}
       </div>
 
       <div className="mt-8 flex w-full justify-end">
         <Button
-          disabled={!isSelectedLayout}
-          onClick={() => handleChangeStep("camera-capture")}
+          disabled={!payload.layoutName}
+          onClick={() => changeStep("camera-capture")}
         >
           <Camera /> Start Photo Session
         </Button>

@@ -16,6 +16,16 @@
   scrollbar-width: none;
 }
 
+.scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+
 @theme inline {
   --font-poppins: var(--font-poppins);
 }
