@@ -59,6 +59,7 @@ export const backgroundOptions = [
   { src: "/background-frame/7.png" },
   // { src: "/background-frame/8.png" },
   // { src: "/background-frame/9.png" },
+  { src: "/background-frame/10.png" },
 ];
 
 export const backgroundGradientOptions = [
