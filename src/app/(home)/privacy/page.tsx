@@ -43,10 +43,10 @@ const Privacy = () => {
         </p>
         <p className="font-poppins md:max-w-[600px]">
           The entire process—from capturing an image to personalization—happens
-          locally in your browser. This means
+          locally in your browser. This means {` `}
           <b>
             your photos are never uploaded, transferred, or touch our servers at
-            all.
+            all.{` `}
           </b>
           Because of this design, it is technically impossible for us to view,
           collect, or share your memories.
