@@ -12,7 +12,7 @@ const Logo = ({ asChild, className, ...props }: LogoProps) => {
   return (
     <Comp>
       <Image
-        src="/logo-white.png"
+        src="/logo-black.png"
         alt="Logo"
         width={200}
         height={200}
