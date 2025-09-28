@@ -203,7 +203,7 @@ const HeroSection = () => {
             ease: [0.25, 0.46, 0.45, 0.94],
           }}
           className={cn(
-            "relative flex h-full min-h-[700px] w-full flex-col justify-end overflow-hidden rounded-2xl bg-black/80 md:hidden",
+            "relative flex h-full min-h-[650px] w-full flex-col justify-end overflow-hidden rounded-2xl bg-black/80 md:hidden",
             currentImage.position,
           )}
           style={{
@@ -227,7 +227,7 @@ const HeroSection = () => {
           />
 
           {/* Konten di atas blur */}
-          <div className="font-poppins relative z-10 flex flex-col gap-3 p-5 pb-14 text-white">
+          <div className="font-poppins relative z-10 flex flex-col gap-3 p-5 text-white">
             <motion.span
               initial={{ opacity: 0, y: 20, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -346,7 +346,7 @@ const HeroSection = () => {
       </AnimatePresence>
 
       {/* Indicator */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.6 }}
@@ -382,7 +382,7 @@ const HeroSection = () => {
             />
           ))}
         </div>
-      </motion.div>
+      </motion.div> */}
     </LayoutProvider>
   );
 };
