@@ -172,7 +172,7 @@ const PhotoEditorAndDownload: React.FC<PhotoEditorAndDownloadProps> = ({
         setLogoImage(null);
       };
 
-      img.src = "/newlogo-black.png";
+      img.src = "/logo-black.png";
     };
 
     loadLogo();
